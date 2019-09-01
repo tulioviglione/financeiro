@@ -13,6 +13,7 @@ import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.enums.SituacaoUsuarioEnum;
 import com.financeiro.api.repositories.UsuarioRepository;
 import com.financeiro.api.services.UsuarioService;
+import com.financeiro.api.utils.PasswordUtils;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -52,7 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario cadastraNovoUsuario(Usuario usuario) {
 		log.debug("cadastra novo usuario no sistema");
 		usuario.setSituacao(SituacaoUsuarioEnum.BLOQUEADO);
-		usuario.setSenha(/*PasswordUtils.gerarBCrypt(*/usuario.getSenha());//);
+		usuario.setSenha(PasswordUtils.gerarBCrypt(usuario.getSenha()));
 		return usuarioRepository.save(usuario);
 	}
 
