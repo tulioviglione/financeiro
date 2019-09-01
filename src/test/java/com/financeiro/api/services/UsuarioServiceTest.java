@@ -1,4 +1,4 @@
-package com.usuario.api.services;
+package com.financeiro.api.services;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
