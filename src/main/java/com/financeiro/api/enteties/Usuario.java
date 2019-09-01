@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.financeiro.api.dtos.UsuarioDTO;
+import com.financeiro.api.enums.PerfilEnum;
 import com.financeiro.api.enums.SituacaoUsuarioEnum;
 
 /**
@@ -39,6 +40,9 @@ public class Usuario extends Generics implements Serializable {
 	@Column(name = "SITUACAO", length = 9, nullable = false)
 	private SituacaoUsuarioEnum situacao;
 
+	@Column(name = "PERFIL", length = 9, nullable = false)
+	private PerfilEnum perfil;
+	
 	public Usuario() {
 		// construtor padrão
 	}
@@ -100,6 +104,14 @@ public class Usuario extends Generics implements Serializable {
 
 	public void setSituacao(SituacaoUsuarioEnum situacao) {
 		this.situacao = situacao;
+	}
+
+	public PerfilEnum getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(PerfilEnum perfil) {
+		this.perfil = perfil;
 	}
 
 }
