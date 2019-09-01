@@ -23,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.repositories.UsuarioRepository;
-import com.financeiro.api.services.UsuarioService;
 import com.financeiro.api.util.ConstantesUtil;
 
 @RunWith(SpringRunner.class)

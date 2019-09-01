@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.financeiro.api.util.ConstantesUtil;
 import com.financeiro.api.utils.PasswordUtils;
 
 public class PasswordUtilsTest {
