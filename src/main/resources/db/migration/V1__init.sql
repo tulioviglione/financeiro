@@ -11,4 +11,4 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_EMAIL` (`email`),
   UNIQUE KEY `UK_LOGIN` (`login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)ENGINE=MyISAM DEFAULT CHARSET=latin1;
