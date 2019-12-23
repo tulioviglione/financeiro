@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.financeiro.api.enteties.Usuario;
+import com.financeiro.api.enums.PerfilEnum;
 import com.financeiro.api.enums.SituacaoUsuarioEnum;
 import com.financeiro.api.repositories.UsuarioRepository;
 import com.financeiro.api.services.UsuarioService;
@@ -53,6 +54,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario cadastraNovoUsuario(Usuario usuario) {
 		log.debug("cadastra novo usuario no sistema");
 		usuario.setSituacao(SituacaoUsuarioEnum.BLOQUEADO);
+		usuario.setPerfil(PerfilEnum.ADMIN);
 		usuario.setSenha(PasswordUtils.gerarBCrypt(usuario.getSenha()));
 		return usuarioRepository.save(usuario);
 	}
