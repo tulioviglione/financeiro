@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -78,4 +79,10 @@ public class UsuarioServiceTest {
 		assertNotNull(usuario);
 	}
 
+	@Test(expected = BusinessException.class)
+	public void TestExceptionCadastroNovoUsuario() throws BusinessException {
+		BDDMockito.given(this.usuarioRepository.save(Mockito.any(Usuario.class))).willThrow(DataIntegrityViolationException.class);
+		this.usuarioService.cadastraNovoUsuario(new Usuario());
+	}
+	
 }
