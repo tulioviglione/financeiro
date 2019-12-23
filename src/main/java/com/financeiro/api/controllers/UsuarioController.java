@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.api.dtos.UsuarioDTO;
 import com.financeiro.api.enteties.Usuario;
+import com.financeiro.api.exceptions.BusinessException;
 import com.financeiro.api.response.Response;
 import com.financeiro.api.services.UsuarioService;
 
@@ -50,7 +51,13 @@ public class UsuarioController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		response.setData(new UsuarioDTO(this.usuarioService.cadastraNovoUsuario(new Usuario(usuarioDto))));
+		try {
+			response.setData(new UsuarioDTO(this.usuarioService.cadastraNovoUsuario(new Usuario(usuarioDto))));
+		} catch (BusinessException e) {
+			log.error("Erro ao cadastrar usuário", e.getCause());
+			response.getErrors().add(e.getMessage());
+			return ResponseEntity.badRequest().body(response);
+		}
 		return ResponseEntity.ok(response);
 
 	}

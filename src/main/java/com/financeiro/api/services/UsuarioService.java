@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import com.financeiro.api.enteties.Usuario;
+import com.financeiro.api.exceptions.BusinessException;
 
 public interface UsuarioService {
 
@@ -47,7 +48,7 @@ public interface UsuarioService {
 	 * @param usuario
 	 * @return
 	 */
-	Usuario cadastraNovoUsuario(Usuario usuario);
+	Usuario cadastraNovoUsuario(Usuario usuario) throws BusinessException ;
 
 	/**
 	 * Persiste Usuario

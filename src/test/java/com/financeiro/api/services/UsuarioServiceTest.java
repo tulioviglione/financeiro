@@ -22,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.financeiro.api.enteties.Usuario;
+import com.financeiro.api.exceptions.BusinessException;
 import com.financeiro.api.repositories.UsuarioRepository;
 import com.financeiro.api.util.ConstantesUtil;
 
@@ -54,7 +55,7 @@ public class UsuarioServiceTest {
 	}
 
 	@Test
-	public void TestCadastroNovoUsuario() throws ParseException {
+	public void TestCadastroNovoUsuario() throws ParseException, BusinessException {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(ConstantesUtil.Usuario.EMAIL_VALIDO);
 		usuario.setLogin(ConstantesUtil.Usuario.LOGIN);

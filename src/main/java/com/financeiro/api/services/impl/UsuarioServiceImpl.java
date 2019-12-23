@@ -1,10 +1,13 @@
 package com.financeiro.api.services.impl;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.enums.PerfilEnum;
 import com.financeiro.api.enums.SituacaoUsuarioEnum;
+import com.financeiro.api.exceptions.BusinessException;
 import com.financeiro.api.repositories.UsuarioRepository;
 import com.financeiro.api.services.UsuarioService;
 import com.financeiro.api.utils.PasswordUtils;
@@ -23,6 +27,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private MessageSource messageSource;
 
 	@Override
 	public boolean isEmailExist(String email) {
@@ -51,12 +58,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Usuario cadastraNovoUsuario(Usuario usuario) {
+	public Usuario cadastraNovoUsuario(Usuario usuario) throws BusinessException {
 		log.debug("cadastra novo usuario no sistema");
 		usuario.setSituacao(SituacaoUsuarioEnum.BLOQUEADO);
 		usuario.setPerfil(PerfilEnum.ADMIN);
 		usuario.setSenha(PasswordUtils.gerarBCrypt(usuario.getSenha()));
-		return usuarioRepository.save(usuario);
+		try {
+			return usuarioRepository.save(usuario);
+		} catch (DataIntegrityViolationException e) {
+			throw new BusinessException(messageSource.getMessage("login.cadastrado", null, Locale.getDefault()), e);
+		}
 	}
 
 	@Override
