@@ -13,7 +13,6 @@ public class MessageSourceConfiguration {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:messages");
-		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
 	}
 
@@ -21,6 +20,7 @@ public class MessageSourceConfiguration {
 	public LocalValidatorFactoryBean validator() {
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
 		bean.setValidationMessageSource(messageSource());
+		
 		return bean;
 	}
 
