@@ -12,6 +12,11 @@ public class BusinessException extends Exception {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(BusinessException.class);
 	
+	
+	public BusinessException() {
+		super();
+	}
+
 	public BusinessException(String message) {
         super(message);
     }
