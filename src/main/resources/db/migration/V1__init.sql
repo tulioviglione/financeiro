@@ -6,7 +6,7 @@ CREATE TABLE `usuario` (
   `login` varchar(100) NOT NULL,
   `nome` varchar(50) DEFAULT NULL,
   `senha` varchar(255) NOT NULL,
-  `situacao` int(11) NOT NULL,
+  `situacao` varchar(9) NOT NULL,
   `sobrenome` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_EMAIL` (`email`),

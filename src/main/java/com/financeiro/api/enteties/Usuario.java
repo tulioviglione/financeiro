@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import com.financeiro.api.dtos.UsuarioDTO;
@@ -37,10 +39,12 @@ public class Usuario extends Generics implements Serializable {
 	@Column(name = "SENHA", length = 255, nullable = false)
 	private String senha;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "SITUACAO", length = 9, nullable = false)
 	private SituacaoUsuarioEnum situacao;
 
-	@Column(name = "PERFIL", length = 9, nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "PERFIL", length = 5, nullable = false)
 	private PerfilEnum perfil;
 	
 	public Usuario() {
