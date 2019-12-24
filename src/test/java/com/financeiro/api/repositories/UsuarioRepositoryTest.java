@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.enums.PerfilEnum;
-import com.financeiro.api.enums.SituacaoEnum;
+import com.financeiro.api.enums.SituacaoUsuarioEnum;
 import com.financeiro.api.util.ConstantesUtil;
 
 @RunWith(SpringRunner.class)
@@ -29,7 +29,7 @@ public class UsuarioRepositoryTest {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(ConstantesUtil.Usuario.EMAIL_VALIDO);
 		usuario.setLogin(ConstantesUtil.Usuario.LOGIN);
-		usuario.setSituacao(SituacaoEnum.ATIVO);
+		usuario.setSituacao(SituacaoUsuarioEnum.ATIVO);
 		usuario.setPerfil(PerfilEnum.ADMIN);
 		usuario.setSenha(ConstantesUtil.Usuario.SENHA_VALIDA);
 		this.usuarioRepository.save(usuario);
