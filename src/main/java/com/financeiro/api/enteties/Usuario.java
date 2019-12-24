@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import com.financeiro.api.dtos.UsuarioDTO;
 import com.financeiro.api.enums.PerfilEnum;
-import com.financeiro.api.enums.SituacaoUsuarioEnum;
+import com.financeiro.api.enums.SituacaoEnum;
 
 /**
  * 
@@ -41,7 +41,7 @@ public class Usuario extends Generics implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "SITUACAO", length = 9, nullable = false)
-	private SituacaoUsuarioEnum situacao;
+	private SituacaoEnum situacao;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "PERFIL", length = 5, nullable = false)
@@ -102,11 +102,11 @@ public class Usuario extends Generics implements Serializable {
 		this.senha = senha;
 	}
 
-	public SituacaoUsuarioEnum getSituacao() {
+	public SituacaoEnum getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(SituacaoUsuarioEnum situacao) {
+	public void setSituacao(SituacaoEnum situacao) {
 		this.situacao = situacao;
 	}
 

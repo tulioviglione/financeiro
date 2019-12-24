@@ -1,12 +1,12 @@
 package com.financeiro.api.enums;
 
-public enum SituacaoUsuarioEnum {
+public enum SituacaoEnum {
 
 	ATIVO("Ativo"), INATIVO("Inativo"), BLOQUEADO("Bloqueado");
 
 	private final String descricao;
 
-	private SituacaoUsuarioEnum(String descricao) {
+	private SituacaoEnum(String descricao) {
 		this.descricao = descricao;
 	}
 

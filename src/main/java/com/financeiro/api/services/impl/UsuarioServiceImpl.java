@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.enums.PerfilEnum;
-import com.financeiro.api.enums.SituacaoUsuarioEnum;
+import com.financeiro.api.enums.SituacaoEnum;
 import com.financeiro.api.exceptions.BusinessException;
 import com.financeiro.api.repositories.UsuarioRepository;
 import com.financeiro.api.services.UsuarioService;
@@ -60,7 +60,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Usuario cadastraNovoUsuario(Usuario usuario) throws BusinessException {
 		log.debug("cadastra novo usuario no sistema");
-		usuario.setSituacao(SituacaoUsuarioEnum.BLOQUEADO);
+		usuario.setSituacao(SituacaoEnum.BLOQUEADO);
 		usuario.setPerfil(PerfilEnum.ADMIN);
 		usuario.setSenha(PasswordUtils.gerarBCrypt(usuario.getSenha()));
 		try {

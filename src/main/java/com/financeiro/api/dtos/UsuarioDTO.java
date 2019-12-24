@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.financeiro.api.enteties.Usuario;
-import com.financeiro.api.enums.SituacaoUsuarioEnum;
+import com.financeiro.api.enums.SituacaoEnum;
 
 public class UsuarioDTO {
 
@@ -14,7 +14,7 @@ public class UsuarioDTO {
 	private String login;
 	private String email;
 	private String senha;
-	private SituacaoUsuarioEnum situacao;
+	private SituacaoEnum situacao;
 
 	public UsuarioDTO() {
 		// construtor padrão
@@ -84,11 +84,11 @@ public class UsuarioDTO {
 		this.senha = senha;
 	}
 
-	public SituacaoUsuarioEnum getSituacao() {
+	public SituacaoEnum getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(SituacaoUsuarioEnum situacao) {
+	public void setSituacao(SituacaoEnum situacao) {
 		this.situacao = situacao;
 	}
 
