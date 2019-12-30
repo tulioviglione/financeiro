@@ -9,9 +9,7 @@ CREATE TABLE FINANCEIROAPI.dbo.usuario (
 	senha varchar(255) COLLATE Latin1_General_CI_AS NOT NULL,
 	situacao varchar(9) COLLATE Latin1_General_CI_AS NOT NULL,
 	sobrenome varchar(50) COLLATE Latin1_General_CI_AS NULL,
-	CONSTRAINT PK_USUARIO PRIMARY KEY (id),
-	CONSTRAINT UK_EMAIL UNIQUE (email),
-	CONSTRAINT UK_LOGIN UNIQUE (login)
+	CONSTRAINT PK_USUARIO PRIMARY KEY (id)
 ) GO
 CREATE UNIQUE INDEX UK_EMAIL ON FINANCEIROAPI.dbo.usuario (email) GO
 CREATE UNIQUE INDEX UK_LOGIN ON FINANCEIROAPI.dbo.usuario (login) GO
@@ -24,7 +22,7 @@ CREATE TABLE FINANCEIROAPI.dbo.caixa (
 	nome varchar(50) COLLATE Latin1_General_CI_AS NOT NULL,
 	situacao varchar(7) COLLATE Latin1_General_CI_AS NOT NULL,
 	tipo_caixa varchar(13) COLLATE Latin1_General_CI_AS NOT NULL,
-	idusuario bigint NOT NULL,
+	id_usuario bigint NOT NULL,
 	CONSTRAINT PK_CAIXA PRIMARY KEY (id),
-	CONSTRAINT FK_CAIXA_USUARIO FOREIGN KEY (idusuario) REFERENCES FINANCEIROAPI.dbo.usuario(id)
-) GO;
+	CONSTRAINT FK_CAIXA_USUARIO FOREIGN KEY (id_usuario) REFERENCES FINANCEIROAPI.dbo.usuario(id)
+);

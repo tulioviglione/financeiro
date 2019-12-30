@@ -41,7 +41,7 @@ public class Caixa extends Generics implements Serializable {
 	private TipoCaixaEnum tipoCaixa;
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="IDUsuario", nullable = false)
+	@JoinColumn(name="id_usuario", nullable = false)
 	private Usuario usuario;
 	
 	public Caixa() {
