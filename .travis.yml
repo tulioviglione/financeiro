@@ -4,8 +4,7 @@ install: true
 addons:
   sonarcloud:
     organization: "tulioviglione-github"
-    token:
-      secure: "06033e68e7067955ed954000f46d5967147e89c9"
+    token: "06033e68e7067955ed954000f46d5967147e89c9"
 jdk:
   - openjdk8
 script:
