@@ -88,7 +88,7 @@ public class UsuarioController {
 		PageRequest pageRequest = PageRequest.of(pag, this.qtdPorPagina, Direction.valueOf(dir), ord);
 
 		Page<Usuario> usuarios = this.usuarioService.buscaTodosUsuarios(pageRequest);
-		Page<UsuarioDTO> usuariosDto = usuarios.map(usuario -> new UsuarioDTO(usuario));
+		Page<UsuarioDTO> usuariosDto = usuarios.map(UsuarioDTO::new);
 
 		response.setData(usuariosDto);
 		return ResponseEntity.ok(response);
