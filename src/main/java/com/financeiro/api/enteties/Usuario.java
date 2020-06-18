@@ -53,7 +53,7 @@ public class Usuario extends Generics implements Serializable {
 	
 	public Usuario(UsuarioDTO dto) {
 		super();
-		setId(dto.getId());
+		this.id = dto.getId();
 		this.nome = dto.getNome();
 		this.sobrenome = dto.getSobrenome();
 		this.login = dto.getLogin();
