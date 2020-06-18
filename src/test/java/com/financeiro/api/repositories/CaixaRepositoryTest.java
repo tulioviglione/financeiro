@@ -1,5 +1,6 @@
 package com.financeiro.api.repositories;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -59,12 +60,25 @@ public class CaixaRepositoryTest {
 
 	@Test
 	public void testFindByUsuario() {
-		assertTrue(caixaRepository.findByUsuario(this.user).isPresent());
+		assertFalse(caixaRepository.findByUsuario(this.user).isEmpty());
 	}
 
 	@Test
 	public void testFindByUsuarioAndSituacao() {
-		assertTrue(caixaRepository.findByUsuarioAndSituacao(this.user, AtivoInativoEnum.ATIVO).isPresent());
+		assertFalse(caixaRepository.findByUsuarioAndSituacao(this.user, AtivoInativoEnum.ATIVO).isEmpty());
+		assertTrue(caixaRepository.findByUsuarioAndSituacao(this.user, AtivoInativoEnum.INATIVO).isEmpty());		
+	}
+	
+	@Test
+	public void testFindByIdUsuario() {
+		assertFalse(caixaRepository.findByIdUsuario(this.user.getId()).isEmpty());
+		assertTrue(caixaRepository.findByIdUsuario(10L).isEmpty());
+	}
+
+	@Test
+	public void testFindByIdUsuarioAndSituacao() {
+		assertFalse(caixaRepository.findByIdUsuarioAndSituacao(this.user.getId(), AtivoInativoEnum.ATIVO).isEmpty());
+		assertTrue(caixaRepository.findByIdUsuarioAndSituacao(this.user.getId(), AtivoInativoEnum.INATIVO).isEmpty());
 	}
 
 }
