@@ -22,7 +22,11 @@ import com.financeiro.api.enums.SituacaoUsuarioEnum;
 @Table(name = "usuario")
 public class Usuario extends Generics implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1726030024509399588L;
 
 	@Column(name = "NOME", length = 50)
 	private String nome;

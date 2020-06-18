@@ -1,13 +1,20 @@
 package com.financeiro.api.dtos;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.enums.SituacaoUsuarioEnum;
 
-public class UsuarioDTO {
+public class UsuarioDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5099601254240404676L;
+	
 	private Long id;
 	private String nome;
 	private String sobrenome;
