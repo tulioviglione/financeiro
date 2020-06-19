@@ -28,15 +28,18 @@ public class CaixaServiceImpl implements CaixaService {
 		log.debug("Usuario {}. Novo caixa cadastrado {}", dto.getUsuario().getId(), dto.getNome());
 		Caixa caixa = new Caixa(dto);
 		caixa.setSituacao(AtivoInativoEnum.ATIVO);
-		return new CaixaDTO(this.caixaRepository.save(caixa));
+		this.caixaRepository.save(caixa);
+		return new CaixaDTO(caixa);
 	}
 
 	@Override
 	public CaixaDTO alterarCaixa(CaixaDTO dto) throws BusinessException {
 		log.debug("Usuario {}. Alteração caixa {}", dto.getUsuario().getId(), dto.getNome());
 		Caixa caixa = new Caixa(dto);
-		if (caixa.getId() != null)
-			return new CaixaDTO(this.caixaRepository.save(caixa));
+		if (caixa.getId() != null) {
+			this.caixaRepository.save(caixa);
+			return new CaixaDTO(caixa);
+		}
 		else throw new BusinessException("O caixa deve ser salvo antes de realizar uma alteração");
 	}
 
