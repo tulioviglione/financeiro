@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.financeiro.api.dtos.CaixaDTO;
 import com.financeiro.api.enums.AtivoInativoEnum;
@@ -23,7 +22,7 @@ import com.financeiro.api.enums.TipoCaixaEnum;
  * @author Tulio Viglione
  */
 @Entity
-@Table(name = "caixa", uniqueConstraints = { @UniqueConstraint(columnNames = "NOME"), @UniqueConstraint(columnNames = "id_usuario") })
+@Table(name = "caixa")
 public class Caixa extends Generics implements Serializable {
 
 	
