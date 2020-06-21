@@ -1,6 +1,7 @@
 package com.financeiro.api.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -105,7 +106,7 @@ public class CaixaServiceTest {
 		
 		CaixaDTO dto = this.caixaService.cadastrarCaixa(new CaixaDTO(this.caixaAtivo));
 		dto.setId(1L);
-		assertTrue(this.caixaService.alterarCaixa(dto) != null);
+		assertNotNull(this.caixaService.alterarCaixa(dto));
 	}
 	
 	@Test
@@ -140,12 +141,12 @@ public class CaixaServiceTest {
 	
 	@Test
 	public void findActiveCaixaByIdUsuarioTest() {
-		assertTrue(this.caixaService.findActiveCaixaByIdUsuario(1L) != null);
+		assertNotNull(this.caixaService.findActiveCaixaByIdUsuario(1L));
 	}
 	
 	@Test
 	public void findCaixaByIdUsuarioTest() {
-		assertTrue(this.caixaService.findCaixaByIdUsuario(1L) != null);
+		assertNotNull(this.caixaService.findCaixaByIdUsuario(1L));
 	}
 	
 }
