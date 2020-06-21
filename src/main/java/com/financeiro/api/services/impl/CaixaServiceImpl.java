@@ -24,8 +24,8 @@ public class CaixaServiceImpl implements CaixaService {
 	private CaixaRepository caixaRepository;
 	
 	@Override
-	public CaixaDTO cadastrarCaixa(CaixaDTO dto) {
-		log.debug("Usuario {}. Novo caixa cadastrado {}", dto.getUsuario().getId(), dto.getNome());
+	public CaixaDTO cadastrarCaixa(CaixaDTO dto, Long idUsuario) {
+		log.debug("Usuario {}. Novo caixa cadastrado {}", idUsuario, dto.getNome());
 		Caixa caixa = new Caixa(dto);
 		caixa.setSituacao(AtivoInativoEnum.ATIVO);
 		this.caixaRepository.save(caixa);
@@ -33,8 +33,8 @@ public class CaixaServiceImpl implements CaixaService {
 	}
 
 	@Override
-	public CaixaDTO alterarCaixa(CaixaDTO dto) throws BusinessException {
-		log.debug("Usuario {}. Alteração caixa {}", dto.getUsuario().getId(), dto.getNome());
+	public CaixaDTO alterarCaixa(CaixaDTO dto, Long idUsuario) throws BusinessException {
+		log.debug("Usuario {}. Alteração caixa {}", idUsuario, dto.getNome());
 		Caixa caixa = new Caixa(dto);
 		if (caixa.getId() != null) {
 			this.caixaRepository.save(caixa);
@@ -44,7 +44,7 @@ public class CaixaServiceImpl implements CaixaService {
 	}
 
 	@Override
-	public void habilitarCaixa(Long idCaixa) throws BusinessException {
+	public void habilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException {
 		log.debug("Habilita caixa id {}", idCaixa);
 		Caixa caixa  = findCaixaById(idCaixa);
 		if(!caixa.getSituacao().equals(AtivoInativoEnum.ATIVO)) {
@@ -56,7 +56,7 @@ public class CaixaServiceImpl implements CaixaService {
 	}
 
 	@Override
-	public void desabilitarCaixa(Long idCaixa) throws BusinessException {
+	public void desabilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException {
 		log.debug("Desabilita caixa id {}", idCaixa);
 		Caixa caixa  = findCaixaById(idCaixa);
 		if(!caixa.getSituacao().equals(AtivoInativoEnum.INATIVO)) {

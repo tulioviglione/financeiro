@@ -88,54 +88,52 @@ public class CaixaServiceTest {
 	@Test
 	public void cadastrarCaixaTest() {
 		Caixa caixa = new Caixa();
-		caixa.setUsuario(this.usuario);
 		caixa.setNome("testeNome");
 		caixa.setDescricao("testeDescricao");
 		caixa.setTipoCaixa(TipoCaixaEnum.BANCO);
-		assertEquals(AtivoInativoEnum.ATIVO, this.caixaService.cadastrarCaixa(new CaixaDTO(caixa)).getSituacao());
+		assertEquals(AtivoInativoEnum.ATIVO, this.caixaService.cadastrarCaixa(new CaixaDTO(caixa), this.usuario.getId()).getSituacao());
 	}
 
 	@Test
 	public void atualizarCaixaTeste() throws BusinessException {
 		assertThrows(BusinessException.class, () -> {
 			CaixaDTO dto = new CaixaDTO();
-			dto.setUsuario(new UsuarioDTO(this.usuario));
-			this.caixaService.alterarCaixa(dto);
+			this.caixaService.alterarCaixa(dto, this.usuario.getId());
 		});
 
-		CaixaDTO dto = this.caixaService.cadastrarCaixa(new CaixaDTO(this.caixaAtivo));
+		CaixaDTO dto = this.caixaService.cadastrarCaixa(new CaixaDTO(this.caixaAtivo), this.usuario.getId());
 		dto.setId(1L);
-		assertNotNull(this.caixaService.alterarCaixa(dto));
+		assertNotNull(this.caixaService.alterarCaixa(dto, this.usuario.getId()));
 	}
 
 	@Test
 	public void habilitarCaixaTest() throws BusinessException {
 		assertThrows(BusinessException.class, () -> {
-			this.caixaService.habilitarCaixa(1L);
+			this.caixaService.habilitarCaixa(1L, this.usuario.getId());
 		});
 
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaAtivo));
 		assertThrows(BusinessException.class, () -> {
-			this.caixaService.habilitarCaixa(1L);
+			this.caixaService.habilitarCaixa(1L, this.usuario.getId());
 		});
 
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaInativo));
-		this.caixaService.habilitarCaixa(1L);
+		this.caixaService.habilitarCaixa(1L, this.usuario.getId());
 	}
 
 	@Test
 	public void DesabilitarCaixaTest() throws BusinessException {
 		assertThrows(BusinessException.class, () -> {
-			this.caixaService.desabilitarCaixa(1L);
+			this.caixaService.desabilitarCaixa(1L, this.usuario.getId());
 		});
 
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaInativo));
 		assertThrows(BusinessException.class, () -> {
-			this.caixaService.desabilitarCaixa(1L);
+			this.caixaService.desabilitarCaixa(1L, this.usuario.getId());
 		});
 
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaAtivo));
-		this.caixaService.desabilitarCaixa(1L);
+		this.caixaService.desabilitarCaixa(1L, this.usuario.getId());
 	}
 
 	@Test

@@ -105,6 +105,7 @@ public class Caixa extends Generics implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+		this.idUsuario = usuario.getId();
 	}
 
 	public Long getIdUsuario() {
