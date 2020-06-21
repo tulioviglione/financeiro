@@ -1,6 +1,11 @@
 package com.financeiro.api.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,12 +20,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.financeiro.api.dtos.CaixaDTO;
+import com.financeiro.api.dtos.UsuarioDTO;
 import com.financeiro.api.enteties.Caixa;
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.enums.AtivoInativoEnum;
 import com.financeiro.api.enums.PerfilEnum;
 import com.financeiro.api.enums.SituacaoUsuarioEnum;
 import com.financeiro.api.enums.TipoCaixaEnum;
+import com.financeiro.api.exceptions.BusinessException;
 import com.financeiro.api.repositories.CaixaRepository;
 import com.financeiro.api.repositories.UsuarioRepository;
 import com.financeiro.api.util.ConstantesUtil;
@@ -40,6 +47,8 @@ public class CaixaServiceTest {
 	private CaixaService caixaService;
 	
 	private Usuario usuario;
+	private Caixa caixaAtivo;
+	private Caixa caixaInativo;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -50,12 +59,24 @@ public class CaixaServiceTest {
 		this.usuario.setPerfil(PerfilEnum.ADMIN);
 		this.usuario.setSituacao(SituacaoUsuarioEnum.ATIVO);
 		this.usuario = this.usuarioRepository.save(this.usuario);
-//		this.caixaRepository.save(caixaInativo);
-//		BDDMockito.given(this.caixaRepository.save(Mockito.any(Caixa.class))).willReturn(new Caixa());
-//		BDDMockito.given(this.usuarioRepository.findByEmail(Mockito.anyString())).willReturn(Optional.of(new Caixa()));
-//		BDDMockito.given(this.usuarioRepository.findByLogin(Mockito.anyString())).willReturn(Optional.of(new Caixa()));
-//		BDDMockito.given(this.usuarioRepository.findAll(Mockito.any(PageRequest.class)))
-//				.willReturn(new PageImpl<Caixa>(new ArrayList<Caixa>()));
+		
+		BDDMockito.given(this.caixaRepository.save(Mockito.any(Caixa.class))).willReturn(new Caixa());
+		
+		this.caixaAtivo = new Caixa();
+		this.caixaAtivo.setUsuario(this.usuario);
+		this.caixaAtivo.setNome("NomeAtivo");
+		this.caixaAtivo.setDescricao("DescricaoAtivo");
+		this.caixaAtivo.setTipoCaixa(TipoCaixaEnum.BANCO);
+		this.caixaAtivo.setSituacao(AtivoInativoEnum.ATIVO);
+		
+		this.caixaInativo = new Caixa();
+		this.caixaInativo.setUsuario(this.usuario);
+		this.caixaInativo.setNome("nomeInativo");
+		this.caixaInativo.setDescricao("descricaoInativo");
+		this.caixaInativo.setTipoCaixa(TipoCaixaEnum.BANCO);
+		this.caixaInativo.setSituacao(AtivoInativoEnum.INATIVO);
+		BDDMockito.given(this.caixaRepository.findByIdUsuario(Mockito.anyLong())).willReturn(new ArrayList<>());
+		BDDMockito.given(this.caixaRepository.findByIdUsuarioAndSituacao(Mockito.anyLong(), Mockito.any())).willReturn(new ArrayList<>());
 	}
 	
 	@After
@@ -74,10 +95,57 @@ public class CaixaServiceTest {
 	}
 	
 
-//	@Test
-//	public void atualizarCaixaTeste() {
-//		BDDMockito.given(this.caixaRepository.save(Mockito.any(Caixa.class))).willReturn(new Caixa());
-//		
-//		this.caixaService.alterarCaixa(new CaixaDTO());
-//	}
+	@Test
+	public void atualizarCaixaTeste() throws BusinessException {
+		assertThrows(BusinessException.class, () -> {
+			CaixaDTO dto = new CaixaDTO();
+			dto.setUsuario(new UsuarioDTO(this.usuario));
+			this.caixaService.alterarCaixa(dto);
+		});
+		
+		CaixaDTO dto = this.caixaService.cadastrarCaixa(new CaixaDTO(this.caixaAtivo));
+		dto.setId(1L);
+		assertTrue(this.caixaService.alterarCaixa(dto) != null);
+	}
+	
+	@Test
+	public void habilitarCaixaTest() throws BusinessException {
+		assertThrows(BusinessException.class, () -> {
+			this.caixaService.habilitarCaixa(1L);
+		});
+		
+		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaAtivo));
+		assertThrows(BusinessException.class, () -> {
+			this.caixaService.habilitarCaixa(1L);
+		});
+		
+		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaInativo));
+		this.caixaService.habilitarCaixa(1L);
+	}
+	
+	@Test
+	public void DesabilitarCaixaTest() throws BusinessException {
+		assertThrows(BusinessException.class, () -> {
+			this.caixaService.desabilitarCaixa(1L);
+		});
+		
+		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaInativo));
+		assertThrows(BusinessException.class, () -> {
+			this.caixaService.desabilitarCaixa(1L);
+		});
+		
+		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaAtivo));
+		this.caixaService.desabilitarCaixa(1L);
+	}
+	
+	@Test
+	public void findActiveCaixaByIdUsuarioTest() {
+		assertTrue(this.caixaService.findActiveCaixaByIdUsuario(1L) != null);
+	}
+	
+	@Test
+	public void findCaixaByIdUsuarioTest() {
+		assertTrue(this.caixaService.findCaixaByIdUsuario(1L) != null);
+	}
+	
 }
