@@ -32,7 +32,9 @@ public class CaixaDTO implements Serializable {
 		this.descricao = caixa.getDescricao();
 		this.situacao = caixa.getSituacao();
 		this.tipoCaixa = caixa.getTipoCaixa();
+		this.usuario = new UsuarioDTO(caixa.getUsuario());
 		this.setIdUsuario(caixa.getIdUsuario());
+		
 	}
 
 	public Long getId() {

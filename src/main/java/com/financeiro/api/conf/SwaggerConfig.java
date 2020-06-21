@@ -61,10 +61,9 @@ public class SwaggerConfig {
 	}
 
 	List<SecurityReference> defaultAuth() {
-	    AuthorizationScope authorizationScope
-	        = new AuthorizationScope("ADMIN", "accessEverything");
-	    AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-	    authorizationScopes[0] = authorizationScope;
+	    AuthorizationScope[] authorizationScopes = new AuthorizationScope[2];
+	    authorizationScopes[0] = new AuthorizationScope("ADMIN", "Acesso completo");
+	    authorizationScopes[1] = new AuthorizationScope("USER", "Acesso somente as funcionalidades do sistema");
 	    return Arrays.asList(
 	        new SecurityReference("Token Access", authorizationScopes));
 	}

@@ -5,24 +5,28 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.financeiro.api.dtos.UsuarioDTO;
+
 public class JwtUser implements UserDetails {
 
 	private static final long serialVersionUID = -268046329085485932L;
 
 	private Long id;
-	private String username;
 	private String password;
 	private String nome;
 	private String sobrenome;
+	private UsuarioDTO userDto;
+	private String email;
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public JwtUser(Long id, String username, String nome, String sobrenome, String password, Collection<? extends GrantedAuthority> authorities) {
+	public JwtUser(Long id, String nome, String sobrenome, String email, String password, Collection<? extends GrantedAuthority> authorities, UsuarioDTO userDto) {
 		this.id = id;
-		this.username = username;
 		this.password = password;
 		this.authorities = authorities;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
+		this.userDto = userDto;
+		this.email = email;
 	}
 
 	public Long getId() {
@@ -31,7 +35,7 @@ public class JwtUser implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return username;
+		return this.email;
 	}
 
 	@Override
@@ -78,6 +82,22 @@ public class JwtUser implements UserDetails {
 
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
+	}
+
+	public UsuarioDTO getUserDto() {
+		return userDto;
+	}
+
+	public void setUserDto(UsuarioDTO userDto) {
+		this.userDto = userDto;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

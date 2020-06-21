@@ -2,6 +2,7 @@ package com.financeiro.api.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.financeiro.api.dtos.UsuarioDTO;
 import com.financeiro.api.security.JwtUser;
 
 public final class UserUtil {
@@ -21,5 +22,9 @@ public final class UserUtil {
 
 	public static String getEmail() {
         return ((JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+    }
+	
+	public static UsuarioDTO getUsuarioDto() {
+        return ((JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserDto();
     }
 }

@@ -29,6 +29,7 @@ public class UsuarioDTO implements Serializable {
 	
 	public UsuarioDTO(Usuario usuario) {
 		super();
+		this.id = usuario.getId();
 		this.nome = usuario.getNome();
 		this.sobrenome = usuario.getSobrenome();
 		this.login = usuario.getLogin();

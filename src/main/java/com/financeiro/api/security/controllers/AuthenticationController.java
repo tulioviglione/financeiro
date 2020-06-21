@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Metodos para recuperar token")
 @RequestMapping("/auth")
 @RestController
-public class AuthenticationController extends GenericController<TokenDto> {
+public class AuthenticationController {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 	private static final String TOKEN_HEADER = "Authorization";
@@ -55,7 +56,7 @@ public class AuthenticationController extends GenericController<TokenDto> {
 	 * @param result
 	 * @return ResponseEntity<Response<TokenDto>>
 	 */
-	@PostMapping()
+	@PostMapping("/authentic")
 	@ApiOperation(value = "Gera token para acesso a API", response = TokenDto.class, produces = "application/JSON")
 	public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDto authenticationDto,
 			BindingResult result) {
@@ -64,7 +65,7 @@ public class AuthenticationController extends GenericController<TokenDto> {
 		if (result.hasErrors()) {
 			log.error("Erro validando lançamento: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
-			return badRequestResponse(response);
+			return ResponseEntity.badRequest().body(response);
 		}
 		try {
 			log.debug("Gerando token para o email {}.", authenticationDto.getEmail());
@@ -75,9 +76,11 @@ public class AuthenticationController extends GenericController<TokenDto> {
 			String token = jwtTokenUtil.obterToken(userDetails);
 			response.setData(new TokenDto(token));
 
-			return postResponse(response);
+			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-			return internalServerError(response, e);
+			log.error(e.getMessage(), e);
+			response.getErrors().add(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
@@ -100,18 +103,20 @@ public class AuthenticationController extends GenericController<TokenDto> {
 				}
 				if (!jwtTokenUtil.tokenValido(token.get())) {
 					response.getErrors().add("Token inválido ou expirado.");
-					return badRequestResponse(response);
+					return ResponseEntity.badRequest().body(response);
 				} else {
 					String refreshedToken = jwtTokenUtil.refreshToken(token.get());
 					response.setData(new TokenDto(refreshedToken));
-					return postResponse(response);
+					return ResponseEntity.ok(response);
 				}
 			} else {
 				response.getErrors().add("Token não informado.");
-				return badRequestResponse(response);
+				return ResponseEntity.badRequest().body(response);
 			}
 		} catch (Exception e) {
-			return internalServerError(response, e);
+			log.error(e.getMessage(), e);
+			response.getErrors().add(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 

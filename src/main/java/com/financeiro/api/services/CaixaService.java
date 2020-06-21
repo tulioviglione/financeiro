@@ -11,19 +11,17 @@ public interface CaixaService {
 	 * Cadastra novo caixa
 	 * 
 	 * @param dto
-	 * @param idUsuario
 	 */
-	CaixaDTO cadastrarCaixa(CaixaDTO dto, Long idUsuario);
+	CaixaDTO cadastrarCaixa(CaixaDTO dto);
 
 	/**
 	 * Altera registro caixa
 	 * 
 	 * @param dto
-	 * @param idUsuario
 	 * @return
 	 * @throws BusinessException
 	 */
-	CaixaDTO alterarCaixa(CaixaDTO dto, Long idUsuario) throws BusinessException;
+	CaixaDTO alterarCaixa(CaixaDTO dto) throws BusinessException;
 
 	/**
 	 * habilita o caixa

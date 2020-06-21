@@ -60,7 +60,6 @@ public class CaixaServiceTest {
 		this.usuario.setSituacao(SituacaoUsuarioEnum.ATIVO);
 		this.usuario = this.usuarioRepository.save(this.usuario);
 
-		BDDMockito.given(this.caixaRepository.save(Mockito.any(Caixa.class))).willReturn(new Caixa());
 
 		this.caixaAtivo = new Caixa();
 		this.caixaAtivo.setUsuario(this.usuario);
@@ -68,6 +67,7 @@ public class CaixaServiceTest {
 		this.caixaAtivo.setDescricao("DescricaoAtivo");
 		this.caixaAtivo.setTipoCaixa(TipoCaixaEnum.BANCO);
 		this.caixaAtivo.setSituacao(AtivoInativoEnum.ATIVO);
+//		BDDMockito.given(this.caixaRepository.save(Mockito.any(Caixa.class))).willReturn(this.caixaAtivo);
 
 		this.caixaInativo = new Caixa();
 		this.caixaInativo.setUsuario(this.usuario);
@@ -91,19 +91,21 @@ public class CaixaServiceTest {
 		caixa.setNome("testeNome");
 		caixa.setDescricao("testeDescricao");
 		caixa.setTipoCaixa(TipoCaixaEnum.BANCO);
-		assertEquals(AtivoInativoEnum.ATIVO, this.caixaService.cadastrarCaixa(new CaixaDTO(caixa), this.usuario.getId()).getSituacao());
+		caixa.setUsuario(this.usuario);
+		assertEquals(AtivoInativoEnum.ATIVO, this.caixaService.cadastrarCaixa(new CaixaDTO(caixa)).getSituacao());
 	}
 
 	@Test
 	public void atualizarCaixaTeste() throws BusinessException {
 		assertThrows(BusinessException.class, () -> {
 			CaixaDTO dto = new CaixaDTO();
-			this.caixaService.alterarCaixa(dto, this.usuario.getId());
+			dto.setUsuario(new UsuarioDTO(this.usuario));
+			this.caixaService.alterarCaixa(dto);
 		});
 
-		CaixaDTO dto = this.caixaService.cadastrarCaixa(new CaixaDTO(this.caixaAtivo), this.usuario.getId());
+		CaixaDTO dto = this.caixaService.cadastrarCaixa(new CaixaDTO(this.caixaAtivo));
 		dto.setId(1L);
-		assertNotNull(this.caixaService.alterarCaixa(dto, this.usuario.getId()));
+		assertNotNull(this.caixaService.alterarCaixa(dto));
 	}
 
 	@Test
