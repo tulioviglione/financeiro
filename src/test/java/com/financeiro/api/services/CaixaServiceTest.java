@@ -70,46 +70,14 @@ public class CaixaServiceTest {
 		caixa.setNome("testeNome");
 		caixa.setDescricao("testeDescricao");
 		caixa.setTipoCaixa(TipoCaixaEnum.BANCO);
-		assertEquals(this.caixaService.cadastrarCaixa(new CaixaDTO(caixa)).getSituacao(), AtivoInativoEnum.ATIVO);
+		assertEquals(AtivoInativoEnum.ATIVO, this.caixaService.cadastrarCaixa(new CaixaDTO(caixa)).getSituacao());
 	}
 	
 
 //	@Test
-//	public void buscaUsuario() {
-//		assertTrue(this.usuarioService.findByEmail(ConstantesUtil.Usuario.EMAIL_VALIDO).isPresent());
-//		assertTrue(this.usuarioService.findByLogin(ConstantesUtil.Usuario.LOGIN).isPresent());
-//		assertTrue(this.usuarioService.isLoginExist(ConstantesUtil.Usuario.LOGIN));
-//		assertTrue(this.usuarioService.isEmailExist(ConstantesUtil.Usuario.EMAIL_VALIDO));
+//	public void atualizarCaixaTeste() {
+//		BDDMockito.given(this.caixaRepository.save(Mockito.any(Caixa.class))).willReturn(new Caixa());
+//		
+//		this.caixaService.alterarCaixa(new CaixaDTO());
 //	}
-//
-//	@Test
-//	public void TestCadastroNovoUsuario() throws ParseException, BusinessException {
-//		Usuario usuario = new Usuario();
-//		usuario.setEmail(ConstantesUtil.Usuario.EMAIL_VALIDO);
-//		usuario.setLogin(ConstantesUtil.Usuario.LOGIN);
-//		usuario.setSenha(ConstantesUtil.Usuario.SENHA_VALIDA);
-//		usuario = this.usuarioService.cadastraNovoUsuario(usuario);
-//		assertNotNull(usuario);
-//	}
-//
-//	@Test
-//	public void TestPersistencia() {
-//		Usuario usuario = this.usuarioService.persisteUsuario(new Usuario());
-//
-//		assertNotNull(usuario);
-//	}
-//
-//	@Test
-//	public void TestBuscaUsuariosCadastrados() {
-//		Page<Usuario> usuario = this.usuarioService.buscaTodosUsuarios(PageRequest.of(0, 10));
-//
-//		assertNotNull(usuario);
-//	}
-//
-//	@Test(expected = BusinessException.class)
-//	public void TestExceptionCadastroNovoUsuario() throws BusinessException {
-//		BDDMockito.given(this.usuarioRepository.save(Mockito.any(Usuario.class))).willThrow(DataIntegrityViolationException.class);
-//		this.usuarioService.cadastraNovoUsuario(new Usuario());
-//	}
-	
 }
