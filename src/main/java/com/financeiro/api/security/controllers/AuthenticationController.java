@@ -17,18 +17,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.api.response.Response;
 import com.financeiro.api.security.dto.JwtAuthenticationDto;
 import com.financeiro.api.security.dto.TokenDto;
 import com.financeiro.api.security.utils.JwtTokenUtil;
 
-@RestController
+import io.swagger.annotations.ApiOperation;
+
 @RequestMapping("/auth")
-public class AuthenticationController {
+public class AuthenticationController extends GenericController<TokenDto> {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 	private static final String TOKEN_HEADER = "Authorization";
@@ -58,18 +59,21 @@ public class AuthenticationController {
 		if (result.hasErrors()) {
 			log.error("Erro validando lançamento: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(response);
+			return badRequestResponse(response);
 		}
+		try {
+			log.debug("Gerando token para o email {}.", authenticationDto.getEmail());
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+					authenticationDto.getEmail(), authenticationDto.getSenha()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getEmail());
+			String token = jwtTokenUtil.obterToken(userDetails);
+			response.setData(new TokenDto(token));
 
-		log.info("Gerando token para o email {}.", authenticationDto.getEmail());
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(authenticationDto.getEmail(), authenticationDto.getSenha()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getEmail());
-		String token = jwtTokenUtil.obterToken(userDetails);
-		response.setData(new TokenDto(token));
-
-		return ResponseEntity.ok(response);
+			return postResponse(response);
+		} catch (Exception e) {
+			return internalServerError(response, e);
+		}
 	}
 
 	/**
@@ -78,27 +82,30 @@ public class AuthenticationController {
 	 * @param request
 	 * @return ResponseEntity<Response<TokenDto>>
 	 */
-	@PostMapping(value = "/refresh")
+	@PutMapping(value = "/refresh")
 	public ResponseEntity<Response<TokenDto>> gerarRefreshTokenJwt(HttpServletRequest request) {
-		log.info("Gerando refresh token JWT.");
+		log.debug("Gerando refresh token JWT.");
 		Response<TokenDto> response = new Response<>();
 		Optional<String> token = Optional.ofNullable(request.getHeader(TOKEN_HEADER));
-
-		if (token.isPresent()) {
-			if (token.get().startsWith(BEARER_PREFIX)) {
-				token = Optional.of(token.get().substring(7));
-			}
-			if (!jwtTokenUtil.tokenValido(token.get())) {
-				response.getErrors().add("Token inválido ou expirado.");
-				return ResponseEntity.badRequest().body(response);
+		try {
+			if (token.isPresent()) {
+				if (token.get().startsWith(BEARER_PREFIX)) {
+					token = Optional.of(token.get().substring(7));
+				}
+				if (!jwtTokenUtil.tokenValido(token.get())) {
+					response.getErrors().add("Token inválido ou expirado.");
+					return badRequestResponse(response);
+				} else {
+					String refreshedToken = jwtTokenUtil.refreshToken(token.get());
+					response.setData(new TokenDto(refreshedToken));
+					return postResponse(response);
+				}
 			} else {
-				String refreshedToken = jwtTokenUtil.refreshToken(token.get());
-				response.setData(new TokenDto(refreshedToken));
-				return ResponseEntity.ok(response);
+				response.getErrors().add("Token não informado.");
+				return badRequestResponse(response);
 			}
-		} else {
-			response.getErrors().add("Token não informado.");
-			return ResponseEntity.badRequest().body(response);
+		} catch (Exception e) {
+			return internalServerError(response, e);
 		}
 	}
 
