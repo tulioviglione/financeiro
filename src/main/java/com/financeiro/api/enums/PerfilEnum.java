@@ -2,7 +2,7 @@ package com.financeiro.api.enums;
 
 public enum PerfilEnum {
 
-	ADMIN("Admin");
+	ADMIN("Admin"), USER("Usuario");
 
 	private final String descricao;
 

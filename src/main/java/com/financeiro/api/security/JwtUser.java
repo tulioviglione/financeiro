@@ -12,13 +12,17 @@ public class JwtUser implements UserDetails {
 	private Long id;
 	private String username;
 	private String password;
+	private String nome;
+	private String sobrenome;
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public JwtUser(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+	public JwtUser(Long id, String username, String nome, String sobrenome, String password, Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.authorities = authorities;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
 	}
 
 	public Long getId() {
@@ -58,6 +62,22 @@ public class JwtUser implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 
 }

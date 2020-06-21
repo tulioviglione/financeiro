@@ -3,11 +3,10 @@ package com.financeiro.api.util;
 public class ConstantesUtil {
 
 	public final class Url {
-		public static final String CADASTRA_USUARIO = "/api/usuarios";
+		public static final String CADASTRA_USUARIO = "/auth/usuarios";
 		public static final String AUTENTICACAO = "/auth/";
-		public static final String VALIDA_EXISTENCIA_EMAIL = "/api/usuarios/validaEmail/";
-		public static final String VALIDA_EXISTENCIA_LOGIN = "/api/usuarios/validaUsuario/";
-		public static final String BUSCA_LISTA_TODOS_USUARIOS = "/api/usuarios/buscaTodosUsuarios";
+		public static final String VALIDA_EXISTENCIA_EMAIL = "/auth/usuarios/validaEmail/";
+		public static final String VALIDA_EXISTENCIA_LOGIN = "/auth/usuarios/validaUsuario/";
 	}
 
 	public final class Usuario {

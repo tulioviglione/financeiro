@@ -18,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -103,17 +102,5 @@ public class UsuarioControllerTest {
 				.andExpect(status().isOk()).andExpect(jsonPath("$.errors").isEmpty())
 				.andExpect(jsonPath("$.data").isNotEmpty());
 	}
-
-	@Test
-	@WithMockUser // anotação para gerar um usuário e passar pela autenticação
-	public void buscaTodosUsuarios() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get(ConstantesUtil.Url.BUSCA_LISTA_TODOS_USUARIOS)
-				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-	}
-
-	@Test
-	public void buscaTodosUsuariosSemToken() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get(ConstantesUtil.Url.BUSCA_LISTA_TODOS_USUARIOS)
-				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isUnauthorized());
-	}
+	
 }
