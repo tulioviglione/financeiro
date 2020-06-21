@@ -3,7 +3,6 @@ package com.financeiro.api.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -40,17 +39,17 @@ public class CaixaServiceTest {
 
 	@MockBean
 	private CaixaRepository caixaRepository;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	@Autowired
 	private CaixaService caixaService;
-	
+
 	private Usuario usuario;
 	private Caixa caixaAtivo;
 	private Caixa caixaInativo;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		this.usuario = new Usuario();
@@ -60,16 +59,16 @@ public class CaixaServiceTest {
 		this.usuario.setPerfil(PerfilEnum.ADMIN);
 		this.usuario.setSituacao(SituacaoUsuarioEnum.ATIVO);
 		this.usuario = this.usuarioRepository.save(this.usuario);
-		
+
 		BDDMockito.given(this.caixaRepository.save(Mockito.any(Caixa.class))).willReturn(new Caixa());
-		
+
 		this.caixaAtivo = new Caixa();
 		this.caixaAtivo.setUsuario(this.usuario);
 		this.caixaAtivo.setNome("NomeAtivo");
 		this.caixaAtivo.setDescricao("DescricaoAtivo");
 		this.caixaAtivo.setTipoCaixa(TipoCaixaEnum.BANCO);
 		this.caixaAtivo.setSituacao(AtivoInativoEnum.ATIVO);
-		
+
 		this.caixaInativo = new Caixa();
 		this.caixaInativo.setUsuario(this.usuario);
 		this.caixaInativo.setNome("nomeInativo");
@@ -77,14 +76,15 @@ public class CaixaServiceTest {
 		this.caixaInativo.setTipoCaixa(TipoCaixaEnum.BANCO);
 		this.caixaInativo.setSituacao(AtivoInativoEnum.INATIVO);
 		BDDMockito.given(this.caixaRepository.findByIdUsuario(Mockito.anyLong())).willReturn(new ArrayList<>());
-		BDDMockito.given(this.caixaRepository.findByIdUsuarioAndSituacao(Mockito.anyLong(), Mockito.any())).willReturn(new ArrayList<>());
+		BDDMockito.given(this.caixaRepository.findByIdUsuarioAndSituacao(Mockito.anyLong(), Mockito.any()))
+				.willReturn(new ArrayList<>());
 	}
-	
+
 	@After
 	public final void tearDown() {
 		this.usuarioRepository.deleteAll();
 	}
-	
+
 	@Test
 	public void cadastrarCaixaTest() {
 		Caixa caixa = new Caixa();
@@ -94,7 +94,6 @@ public class CaixaServiceTest {
 		caixa.setTipoCaixa(TipoCaixaEnum.BANCO);
 		assertEquals(AtivoInativoEnum.ATIVO, this.caixaService.cadastrarCaixa(new CaixaDTO(caixa)).getSituacao());
 	}
-	
 
 	@Test
 	public void atualizarCaixaTeste() throws BusinessException {
@@ -103,50 +102,50 @@ public class CaixaServiceTest {
 			dto.setUsuario(new UsuarioDTO(this.usuario));
 			this.caixaService.alterarCaixa(dto);
 		});
-		
+
 		CaixaDTO dto = this.caixaService.cadastrarCaixa(new CaixaDTO(this.caixaAtivo));
 		dto.setId(1L);
 		assertNotNull(this.caixaService.alterarCaixa(dto));
 	}
-	
+
 	@Test
 	public void habilitarCaixaTest() throws BusinessException {
 		assertThrows(BusinessException.class, () -> {
 			this.caixaService.habilitarCaixa(1L);
 		});
-		
+
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaAtivo));
 		assertThrows(BusinessException.class, () -> {
 			this.caixaService.habilitarCaixa(1L);
 		});
-		
+
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaInativo));
 		this.caixaService.habilitarCaixa(1L);
 	}
-	
+
 	@Test
 	public void DesabilitarCaixaTest() throws BusinessException {
 		assertThrows(BusinessException.class, () -> {
 			this.caixaService.desabilitarCaixa(1L);
 		});
-		
+
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaInativo));
 		assertThrows(BusinessException.class, () -> {
 			this.caixaService.desabilitarCaixa(1L);
 		});
-		
+
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaAtivo));
 		this.caixaService.desabilitarCaixa(1L);
 	}
-	
+
 	@Test
 	public void findActiveCaixaByIdUsuarioTest() {
 		assertNotNull(this.caixaService.findActiveCaixaByIdUsuario(1L));
 	}
-	
+
 	@Test
 	public void findCaixaByIdUsuarioTest() {
 		assertNotNull(this.caixaService.findCaixaByIdUsuario(1L));
 	}
-	
+
 }
