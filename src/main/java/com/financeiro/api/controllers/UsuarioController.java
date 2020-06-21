@@ -5,7 +5,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +18,14 @@ import com.financeiro.api.dtos.UsuarioDTO;
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.exceptions.BusinessException;
 import com.financeiro.api.response.Response;
+import com.financeiro.api.security.controllers.GenericController;
 import com.financeiro.api.services.UsuarioService;
 
-@RestController
+
 @RequestMapping("/auth/usuarios")
-public class UsuarioController {
+public class UsuarioController extends GenericController {
 
 	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
-
-	@Value("${paginacao.qtd_por_pagina}")
-	private int qtdPorPagina;
 
 	@Autowired
 	private UsuarioService usuarioService;

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.api.response.Response;
 
@@ -17,7 +16,6 @@ import io.swagger.annotations.ApiResponses;
 	    @ApiResponse(code = 400, message = "Verifique as informações enviadas"),
 	    @ApiResponse(code = 500, message = "Erro inesperado. Exceção não tratada")
 	})
-@RestController
 public class GenericController<K> {
 
 	private static final Logger log = LoggerFactory.getLogger(GenericController.class);

@@ -20,15 +20,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.api.response.Response;
 import com.financeiro.api.security.dto.JwtAuthenticationDto;
 import com.financeiro.api.security.dto.TokenDto;
 import com.financeiro.api.security.utils.JwtTokenUtil;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api(value = "Metodos para recuperar token")
 @RequestMapping("/auth")
+@RestController
 public class AuthenticationController extends GenericController<TokenDto> {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
@@ -51,7 +55,8 @@ public class AuthenticationController extends GenericController<TokenDto> {
 	 * @param result
 	 * @return ResponseEntity<Response<TokenDto>>
 	 */
-	@PostMapping
+	@PostMapping()
+	@ApiOperation(value = "Gera token para acesso a API", response = TokenDto.class, produces = "application/JSON")
 	public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDto authenticationDto,
 			BindingResult result) {
 		Response<TokenDto> response = new Response<>();
@@ -83,6 +88,7 @@ public class AuthenticationController extends GenericController<TokenDto> {
 	 * @return ResponseEntity<Response<TokenDto>>
 	 */
 	@PutMapping(value = "/refresh")
+	@ApiOperation(value = "Atualiza token para acesso a API", response = TokenDto.class, produces = "application/JSON")
 	public ResponseEntity<Response<TokenDto>> gerarRefreshTokenJwt(HttpServletRequest request) {
 		log.debug("Gerando refresh token JWT.");
 		Response<TokenDto> response = new Response<>();
