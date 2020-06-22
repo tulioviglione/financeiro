@@ -2,6 +2,9 @@ package com.financeiro.api.dtos;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.financeiro.api.enteties.Caixa;
 import com.financeiro.api.enums.AtivoInativoEnum;
 import com.financeiro.api.enums.TipoCaixaEnum;
@@ -12,7 +15,7 @@ public class CaixaDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1105579878689368058L;
-	
+
 	private Long id;
 	private String nome;
 	private String descricao;
@@ -24,7 +27,7 @@ public class CaixaDTO implements Serializable {
 	public CaixaDTO() {
 		// construtor padrão
 	}
-	
+
 	public CaixaDTO(Caixa caixa) {
 		super();
 		this.id = caixa.getId();
@@ -34,7 +37,7 @@ public class CaixaDTO implements Serializable {
 		this.tipoCaixa = caixa.getTipoCaixa();
 		this.usuario = new UsuarioDTO(caixa.getUsuario());
 		this.setIdUsuario(caixa.getIdUsuario());
-		
+
 	}
 
 	public Long getId() {
@@ -45,6 +48,8 @@ public class CaixaDTO implements Serializable {
 		this.id = id;
 	}
 
+	@NotNull(message = "{nome.nulo}")
+	@Size(min = 1, message = "{nome.vazio}")
 	public String getNome() {
 		return nome;
 	}
@@ -69,6 +74,7 @@ public class CaixaDTO implements Serializable {
 		this.situacao = situacao;
 	}
 
+	@NotNull(message = "{tipo.caixa.nulo}")
 	public TipoCaixaEnum getTipoCaixa() {
 		return tipoCaixa;
 	}

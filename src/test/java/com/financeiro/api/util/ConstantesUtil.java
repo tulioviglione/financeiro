@@ -7,6 +7,8 @@ public class ConstantesUtil {
 		public static final String AUTENTICACAO = "/auth/";
 		public static final String VALIDA_EXISTENCIA_EMAIL = "/auth/usuarios/validaEmail/";
 		public static final String VALIDA_EXISTENCIA_LOGIN = "/auth/usuarios/validaUsuario/";
+		public static final String CADASTRAR_NOVO_CAIXA = "/api/caixas";
+		
 	}
 
 	public final class Usuario {

@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 
 @ApiResponses(value = {
 	    @ApiResponse(code = 400, message = "Verifique as informações enviadas"),
-	    @ApiResponse(code = 400, message = "Obrigatorio o usuário estar logado"),
+	    @ApiResponse(code = 401, message = "Obrigatorio o usuário estar logado"),
 	    @ApiResponse(code = 500, message = "Erro inesperado. Exceção não tratada"),
 	    @ApiResponse(code = 201, message = "Novo registro adicionado")
 	})
@@ -26,7 +26,7 @@ public abstract class GenericController<K> {
 
 	private static final Logger log = LoggerFactory.getLogger(GenericController.class);
 
-	protected ResponseEntity<Response<K>> postResponse(Response<K> response) {
+	protected ResponseEntity<Response<K>> getResponse(Response<K> response) {
 		return ResponseEntity.ok(response);
 	}
 	
@@ -34,7 +34,8 @@ public abstract class GenericController<K> {
 		return ResponseEntity.badRequest().body(response);
 	}
 	
-	protected ResponseEntity<Response<K>> internalServerError(Response<K> response, Exception e) {
+	protected ResponseEntity<Response<K>> internalServerError(RuntimeException e) {
+		Response<K> response = new Response<>();
 		log.error(e.getMessage(), e);
 		response.getErrors().add(e.getMessage());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
@@ -48,7 +49,7 @@ public abstract class GenericController<K> {
 		if (result.hasErrors()) {
 			log.error("Erro Validação DTO: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(response);
+			return this.badRequestResponse(response);
 		} else return ResponseEntity.ok().build();
 	}
 
