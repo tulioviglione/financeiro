@@ -20,7 +20,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.financeiro.api.dtos.CaixaDTO;
-import com.financeiro.api.dtos.UsuarioDTO;
 import com.financeiro.api.enteties.Caixa;
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.enums.AtivoInativoEnum;
@@ -66,14 +65,14 @@ public class CaixaServiceTest {
 		this.caixaAtivo.setDescricao("DescricaoAtivo");
 		this.caixaAtivo.setTipoCaixa(TipoCaixaEnum.BANCO);
 		this.caixaAtivo.setSituacao(AtivoInativoEnum.ATIVO);
-//		BDDMockito.given(this.caixaRepository.save(Mockito.any(Caixa.class))).willReturn(this.caixaAtivo);
 
-		this.caixaInativo = new Caixa();
+		this.caixaInativo = new Caixa(1L);
 		this.caixaInativo.setUsuario(this.usuario);
 		this.caixaInativo.setNome("nomeInativo");
 		this.caixaInativo.setDescricao("descricaoInativo");
 		this.caixaInativo.setTipoCaixa(TipoCaixaEnum.BANCO);
 		this.caixaInativo.setSituacao(AtivoInativoEnum.INATIVO);
+		
 		BDDMockito.given(this.caixaRepository.findByIdUsuario(Mockito.anyLong())).willReturn(new ArrayList<>());
 		BDDMockito.given(this.caixaRepository.findByIdUsuarioAndSituacao(Mockito.anyLong(), Mockito.any()))
 				.willReturn(new ArrayList<>());
@@ -97,11 +96,11 @@ public class CaixaServiceTest {
 	@Test
 	public void atualizarCaixaTeste() throws BusinessException {
 		assertThrows(BusinessException.class, () -> {
-			CaixaDTO dto = new CaixaDTO();
-			dto.setUsuario(new UsuarioDTO(this.usuario));
-			this.caixaService.alterarCaixa(dto);
+			this.caixaService.alterarCaixa(new CaixaDTO(this.caixaAtivo));
 		});
-
+		assertThrows(BusinessException.class, () -> {
+			this.caixaService.alterarCaixa(new CaixaDTO(this.caixaInativo));
+		});
 		CaixaDTO dto = this.caixaService.cadastrarCaixa(new CaixaDTO(this.caixaAtivo));
 		dto.setId(1L);
 		assertNotNull(this.caixaService.alterarCaixa(dto));

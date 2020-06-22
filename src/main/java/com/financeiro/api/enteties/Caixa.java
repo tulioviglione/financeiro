@@ -56,6 +56,11 @@ public class Caixa extends Generics implements Serializable {
 		// construtor padrão
 	}
 	
+	public Caixa(Long id) {
+		super();
+		this.id = id;
+	}
+	
 	public Caixa(CaixaDTO dto) {
 		super();
 		this.id = dto.getId();

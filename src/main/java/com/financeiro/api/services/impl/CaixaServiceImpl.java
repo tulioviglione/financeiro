@@ -37,8 +37,10 @@ public class CaixaServiceImpl implements CaixaService {
 		log.debug("Usuario {}. Alteração caixa {}", dto.getIdUsuario(), dto.getNome());
 		Caixa caixa = new Caixa(dto);
 		if (caixa.getId() != null) {
-			this.caixaRepository.save(caixa);
-			return new CaixaDTO(caixa);
+			if (caixa.getSituacao().equals(AtivoInativoEnum.ATIVO)) {
+				this.caixaRepository.save(caixa);
+				return new CaixaDTO(caixa);
+			} else throw new BusinessException("O caixa deve estar ativo para possibilitar atualização");
 		}
 		else throw new BusinessException("O caixa deve ser salvo antes de realizar uma alteração");
 	}
