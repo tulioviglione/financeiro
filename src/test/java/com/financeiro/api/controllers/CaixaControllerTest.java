@@ -21,6 +21,7 @@ import com.financeiro.api.config.WithMockCustomUser;
 import com.financeiro.api.dtos.CaixaDTO;
 import com.financeiro.api.enums.AtivoInativoEnum;
 import com.financeiro.api.enums.TipoCaixaEnum;
+import com.financeiro.api.exceptions.BusinessException;
 import com.financeiro.api.services.CaixaService;
 import com.financeiro.api.util.ConstantesUtil;
 import com.financeiro.api.utils.FunctionUtil;
@@ -54,24 +55,58 @@ public class CaixaControllerTest {
 		BDDMockito.given(this.caixaService.cadastrarCaixa(Mockito.any(CaixaDTO.class))).willReturn(this.caixaDto);
 
 		this.caixaDto.setNome(null);
-		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CADASTRAR_NOVO_CAIXA)
+		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CAIXA)
 				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
 
 		this.caixaDto.setNome("nomeCaixa");
 		this.caixaDto.setTipoCaixa(null);
-		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CADASTRAR_NOVO_CAIXA)
+		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CAIXA)
 				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
 
 		this.caixaDto.setTipoCaixa(TipoCaixaEnum.BANCO);
-		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CADASTRAR_NOVO_CAIXA)
+		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CAIXA)
 				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
 		BDDMockito.given(this.caixaService.cadastrarCaixa(Mockito.any(CaixaDTO.class)))
 				.willThrow(new RuntimeException());
-		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CADASTRAR_NOVO_CAIXA)
+		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CAIXA)
+				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError());
+	}
+	
+	@Test
+	@WithMockCustomUser
+	public void atualizarCaixaTest() throws Exception {
+		BDDMockito.given(this.caixaService.alterarCaixa(Mockito.any(CaixaDTO.class))).willReturn(this.caixaDto);
+
+		this.caixaDto.setNome(null);
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA)
+				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+
+		this.caixaDto.setNome("nomeCaixa");
+		this.caixaDto.setTipoCaixa(null);
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA)
+				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+
+		this.caixaDto.setTipoCaixa(TipoCaixaEnum.BANCO);
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA)
+				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
+
+		BDDMockito.given(this.caixaService.alterarCaixa(Mockito.any(CaixaDTO.class)))
+		.willThrow(new BusinessException());
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA)
+				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+		
+		BDDMockito.given(this.caixaService.alterarCaixa(Mockito.any(CaixaDTO.class)))
+				.willThrow(new RuntimeException());
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA)
 				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError());
 	}
@@ -79,7 +114,15 @@ public class CaixaControllerTest {
 	@Test
 	public void cadastraNovoCaixaSemUsuarioTest() throws Exception {
 		BDDMockito.given(this.caixaService.cadastrarCaixa(Mockito.any(CaixaDTO.class))).willReturn(this.caixaDto);
-		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CADASTRAR_NOVO_CAIXA)
+		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CAIXA)
+				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isUnauthorized());
+	}
+	
+	@Test
+	public void alterarCaixaSemUsuarioTest() throws Exception {
+		BDDMockito.given(this.caixaService.cadastrarCaixa(Mockito.any(CaixaDTO.class))).willReturn(this.caixaDto);
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA)
 				.content(FunctionUtil.asJsonString(this.caixaDto)).contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isUnauthorized());
 	}
