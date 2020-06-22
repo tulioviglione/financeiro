@@ -19,6 +19,10 @@ public class JwtUser implements UserDetails {
 	private String email;
 	private Collection<? extends GrantedAuthority> authorities;
 
+	public JwtUser() {
+		
+	}
+	
 	public JwtUser(Long id, String nome, String sobrenome, String email, String password, Collection<? extends GrantedAuthority> authorities, UsuarioDTO userDto) {
 		this.id = id;
 		this.password = password;
