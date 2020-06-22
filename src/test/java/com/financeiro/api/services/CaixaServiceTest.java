@@ -60,7 +60,6 @@ public class CaixaServiceTest {
 		this.usuario.setSituacao(SituacaoUsuarioEnum.ATIVO);
 		this.usuario = this.usuarioRepository.save(this.usuario);
 
-
 		this.caixaAtivo = new Caixa();
 		this.caixaAtivo.setUsuario(this.usuario);
 		this.caixaAtivo.setNome("NomeAtivo");

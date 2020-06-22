@@ -41,8 +41,10 @@ public class UsuarioServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		BDDMockito.given(this.usuarioRepository.save(Mockito.any(Usuario.class))).willReturn(new Usuario());
-		BDDMockito.given(this.usuarioRepository.findByEmail(Mockito.anyString())).willReturn(Optional.of(new Usuario()));
-		BDDMockito.given(this.usuarioRepository.findByLogin(Mockito.anyString())).willReturn(Optional.of(new Usuario()));
+		BDDMockito.given(this.usuarioRepository.findByEmail(Mockito.anyString()))
+				.willReturn(Optional.of(new Usuario()));
+		BDDMockito.given(this.usuarioRepository.findByLogin(Mockito.anyString()))
+				.willReturn(Optional.of(new Usuario()));
 		BDDMockito.given(this.usuarioRepository.findAll(Mockito.any(PageRequest.class)))
 				.willReturn(new PageImpl<Usuario>(new ArrayList<Usuario>()));
 	}
@@ -81,8 +83,9 @@ public class UsuarioServiceTest {
 
 	@Test(expected = BusinessException.class)
 	public void TestExceptionCadastroNovoUsuario() throws BusinessException {
-		BDDMockito.given(this.usuarioRepository.save(Mockito.any(Usuario.class))).willThrow(DataIntegrityViolationException.class);
+		BDDMockito.given(this.usuarioRepository.save(Mockito.any(Usuario.class)))
+				.willThrow(DataIntegrityViolationException.class);
 		this.usuarioService.cadastraNovoUsuario(new Usuario());
 	}
-	
+
 }

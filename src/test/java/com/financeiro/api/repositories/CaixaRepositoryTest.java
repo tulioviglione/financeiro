@@ -27,12 +27,11 @@ public class CaixaRepositoryTest {
 
 	@Autowired
 	private CaixaRepository caixaRepository;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	private Usuario user;
-	
 
 	@Before
 	public void setUp() throws Exception {
@@ -66,9 +65,9 @@ public class CaixaRepositoryTest {
 	@Test
 	public void testFindByUsuarioAndSituacao() {
 		assertFalse(caixaRepository.findByUsuarioAndSituacao(this.user, AtivoInativoEnum.ATIVO).isEmpty());
-		assertTrue(caixaRepository.findByUsuarioAndSituacao(this.user, AtivoInativoEnum.INATIVO).isEmpty());		
+		assertTrue(caixaRepository.findByUsuarioAndSituacao(this.user, AtivoInativoEnum.INATIVO).isEmpty());
 	}
-	
+
 	@Test
 	public void testFindByIdUsuario() {
 		assertFalse(caixaRepository.findByIdUsuario(this.user.getId()).isEmpty());

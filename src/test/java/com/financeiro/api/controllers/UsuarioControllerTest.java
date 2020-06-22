@@ -76,13 +76,14 @@ public class UsuarioControllerTest {
 				.content("{\"nome\": \"\",\"sobrenome\": \"\",\"login\": \"\",\"email\": \"\",\"senha\": \"\"}")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors").isNotEmpty());
-		
-		BDDMockito.given(this.usuarioService.cadastraNovoUsuario(Mockito.any(Usuario.class))).willThrow(new BusinessException());
+
+		BDDMockito.given(this.usuarioService.cadastraNovoUsuario(Mockito.any(Usuario.class)))
+				.willThrow(new BusinessException());
 		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CADASTRA_USUARIO)
 				.content("{\"nome\": \"\",\"sobrenome\": \"\",\"login\": \"\",\"email\": \"\",\"senha\": \"\"}")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors").isNotEmpty());
-		
+				.andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors").isNotEmpty());
+
 	}
 
 	@Test
@@ -102,5 +103,5 @@ public class UsuarioControllerTest {
 				.andExpect(status().isOk()).andExpect(jsonPath("$.errors").isEmpty())
 				.andExpect(jsonPath("$.data").isNotEmpty());
 	}
-	
+
 }
