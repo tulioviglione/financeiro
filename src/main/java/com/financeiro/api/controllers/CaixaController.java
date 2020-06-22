@@ -25,16 +25,14 @@ import io.swagger.annotations.Api;
 @RestController
 public class CaixaController extends GenericController<CaixaDTO> {
 
-	private static final Logger log = LoggerFactory.getLogger(CaixaController.class);
-
 	@Autowired
 	private CaixaService caixaService;
 
 	@Override
-	public ResponseEntity<Response<CaixaDTO>> save(@Valid  @RequestBody CaixaDTO caixaDto, BindingResult result) {
-		
+	public ResponseEntity<Response<CaixaDTO>> save(@Valid @RequestBody CaixaDTO caixaDto, BindingResult result) {
+
 		ResponseEntity<Response<CaixaDTO>> retorno = super.save(caixaDto, result);
-		
+
 		if (retorno.getStatusCodeValue() == 200) {
 			try {
 				Response<CaixaDTO> response = new Response<>();
@@ -47,12 +45,12 @@ public class CaixaController extends GenericController<CaixaDTO> {
 		}
 		return retorno;
 	}
-	
+
 	@Override
-	public ResponseEntity<Response<CaixaDTO>> update(@Valid  @RequestBody CaixaDTO caixaDto, BindingResult result) {
-		
+	public ResponseEntity<Response<CaixaDTO>> update(@Valid @RequestBody CaixaDTO caixaDto, BindingResult result) {
+
 		ResponseEntity<Response<CaixaDTO>> retorno = super.update(caixaDto, result);
-		
+
 		if (retorno.getStatusCodeValue() == 200) {
 			try {
 				Response<CaixaDTO> response = new Response<>();
@@ -67,6 +65,5 @@ public class CaixaController extends GenericController<CaixaDTO> {
 		}
 		return retorno;
 	}
-	
-	
+
 }
