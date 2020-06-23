@@ -32,7 +32,7 @@ public class CaixaRepositoryTest {
 	private UsuarioRepository usuarioRepository;
 
 	private Usuario user;
-	
+
 	private Caixa caixa;
 
 	@Before
@@ -81,11 +81,12 @@ public class CaixaRepositoryTest {
 		assertFalse(caixaRepository.findByIdUsuarioAndSituacao(this.user.getId(), AtivoInativoEnum.ATIVO).isEmpty());
 		assertTrue(caixaRepository.findByIdUsuarioAndSituacao(this.user.getId(), AtivoInativoEnum.INATIVO).isEmpty());
 	}
-	
+
 	@Test
 	public void testFindByIdAndIdUsuario() {
-		assertFalse(caixaRepository.findByIdAndIdUsuario(this.caixa.getId(), this.user.getId()).isEmpty());
-		assertTrue(caixaRepository.findByIdAndIdUsuario(Math.subtractExact(100L, this.caixa.getId()), this.user.getId()).isEmpty());
+		assertTrue(caixaRepository.findByIdAndIdUsuario(this.caixa.getId(), this.user.getId()).isPresent());
+		assertFalse(caixaRepository
+				.findByIdAndIdUsuario(Math.subtractExact(100L, this.caixa.getId()), this.user.getId()).isPresent());
 	}
 
 }
