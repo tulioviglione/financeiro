@@ -118,7 +118,7 @@ public class CaixaServiceTest {
 		});
 
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaInativo));
-		this.caixaService.habilitarCaixa(1L, this.usuario.getId());
+		assertNotNull(this.caixaService.habilitarCaixa(1L, this.usuario.getId()));
 	}
 
 	@Test
@@ -133,7 +133,7 @@ public class CaixaServiceTest {
 		});
 
 		BDDMockito.given(this.caixaRepository.findById(Mockito.anyLong())).willReturn(Optional.of(this.caixaAtivo));
-		this.caixaService.desabilitarCaixa(1L, this.usuario.getId());
+		assertNotNull(this.caixaService.desabilitarCaixa(1L, this.usuario.getId()));
 	}
 
 	@Test

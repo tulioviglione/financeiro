@@ -32,6 +32,8 @@ public class CaixaRepositoryTest {
 	private UsuarioRepository usuarioRepository;
 
 	private Usuario user;
+	
+	private Caixa caixa;
 
 	@Before
 	public void setUp() throws Exception {
@@ -41,14 +43,14 @@ public class CaixaRepositoryTest {
 		usuario.setSituacao(SituacaoUsuarioEnum.ATIVO);
 		usuario.setPerfil(PerfilEnum.ADMIN);
 		usuario.setSenha(ConstantesUtil.Usuario.SENHA_VALIDA);
-		Caixa caixa = new Caixa();
+		this.caixa = new Caixa();
 		this.user = this.usuarioRepository.save(usuario);
-		caixa.setUsuario(this.user);
-		caixa.setTipoCaixa(TipoCaixaEnum.BANCO);
-		caixa.setNome("caixaNome");
-		caixa.setDescricao("caixaDescricao");
-		caixa.setSituacao(AtivoInativoEnum.ATIVO);
-		this.caixaRepository.save(caixa);
+		this.caixa.setUsuario(this.user);
+		this.caixa.setTipoCaixa(TipoCaixaEnum.BANCO);
+		this.caixa.setNome("caixaNome");
+		this.caixa.setDescricao("caixaDescricao");
+		this.caixa.setSituacao(AtivoInativoEnum.ATIVO);
+		this.caixa = this.caixaRepository.save(caixa);
 	}
 
 	@After
@@ -78,6 +80,12 @@ public class CaixaRepositoryTest {
 	public void testFindByIdUsuarioAndSituacao() {
 		assertFalse(caixaRepository.findByIdUsuarioAndSituacao(this.user.getId(), AtivoInativoEnum.ATIVO).isEmpty());
 		assertTrue(caixaRepository.findByIdUsuarioAndSituacao(this.user.getId(), AtivoInativoEnum.INATIVO).isEmpty());
+	}
+	
+	@Test
+	public void testFindByIdAndIdUsuario() {
+		assertFalse(caixaRepository.findByIdAndIdUsuario(this.caixa.getId(), this.user.getId()).isEmpty());
+		assertTrue(caixaRepository.findByIdAndIdUsuario(Math.subtractExact(100L, this.caixa.getId()), this.user.getId()).isEmpty());
 	}
 
 }

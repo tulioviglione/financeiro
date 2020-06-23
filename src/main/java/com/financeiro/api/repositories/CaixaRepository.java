@@ -48,4 +48,14 @@ public interface CaixaRepository extends JpaRepository<Caixa, Long> {
 	@Transactional(readOnly = true)
 	List<Caixa> findByIdUsuario(Long idUsuario);
 	
+	/**
+	 * busca caixa por id do caixa e id do usuário
+	 * 
+	 * @param id
+	 * @param idUsuario
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	List<Caixa> findByIdAndIdUsuario(Long id, Long idUsuario);
+	
 }
