@@ -53,9 +53,7 @@ public class CaixaServiceImpl implements CaixaService {
 			caixa.setSituacao(AtivoInativoEnum.ATIVO);
 			this.caixaRepository.save(caixa);
 			return "Caixa habilitado com sucesso";
-		} else {
-			throw new BusinessException("Caixa encontra-se ativo");
-		}
+		} else throw new BusinessException("Caixa encontra-se ativo");
 	}
 
 	@Override
@@ -66,13 +64,11 @@ public class CaixaServiceImpl implements CaixaService {
 			caixa.setSituacao(AtivoInativoEnum.INATIVO);
 			this.caixaRepository.save(caixa);
 			return "Caixa desabilitado com sucesso";
-		} else {
-			throw new BusinessException("Caixa encontra-se inativo");
-		}
+		} else throw new BusinessException("Caixa encontra-se inativo");
 	}
 
 	private Caixa findCaixaById(Long idCaixa, Long idUsuario) throws BusinessException {
-		return this.caixaRepository.findById(idCaixa).orElseThrow(() -> new BusinessException("Nenhum caixa retornado para o ID informado"));
+		return this.caixaRepository.findByIdAndIdUsuario(idCaixa, idUsuario).orElseThrow(() -> new BusinessException("Nenhum caixa retornado para o ID informado"));
 	}
 
 	@Override
