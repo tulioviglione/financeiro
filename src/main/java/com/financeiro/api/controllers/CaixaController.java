@@ -1,11 +1,17 @@
 package com.financeiro.api.controllers;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,12 +23,15 @@ import com.financeiro.api.services.CaixaService;
 import com.financeiro.api.utils.UserUtil;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Metodos para acesso as funcionalidades dos caixas")
 @RequestMapping("/api/caixas")
 @RestController
 public class CaixaController extends GenericController<CaixaDTO> {
 
+	private static final Logger log = LoggerFactory.getLogger(CaixaController.class);
+	
 	@Autowired
 	private CaixaService caixaService;
 
@@ -62,6 +71,42 @@ public class CaixaController extends GenericController<CaixaDTO> {
 			}
 		}
 		return retorno;
+	}
+	
+	@PutMapping(value = "/habilitaCaixa/{idCaixa}")
+	@ApiOperation(value = "Habilita Caixa", produces = "application/JSON")
+	public ResponseEntity<Response<String>> habilitarCaixa(@PathVariable(name="idCaixa") Long idCaixa) {
+		Response<String> response = new Response<>();
+		try {
+			response.setData(this.caixaService.habilitarCaixa(idCaixa, UserUtil.getCodeUser()));
+			return ResponseEntity.ok().body(response);
+		} catch (BusinessException e) {
+			log.error(e.getMessage(), e);
+			response.setErrors(Arrays.asList(e.getMessage()));
+			return ResponseEntity.badRequest().body(response);
+		} catch (RuntimeException e) {
+			log.error(e.getMessage(), e);
+			response.setErrors(Arrays.asList(e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+	
+	@PutMapping(value = "/desabilitaCaixa/{idCaixa}")
+	@ApiOperation(value = "Habilita Caixa", produces = "application/JSON")
+	public ResponseEntity<Response<String>> desabilitarCaixa(@PathVariable(name="idCaixa") Long idCaixa) {
+		Response<String> response = new Response<>();
+		try {
+			response.setData(this.caixaService.desabilitarCaixa(idCaixa, UserUtil.getCodeUser()));
+			return ResponseEntity.ok().body(response);
+		} catch (BusinessException e) {
+			log.error(e.getMessage(), e);
+			response.setErrors(Arrays.asList(e.getMessage()));
+			return ResponseEntity.badRequest().body(response);
+		} catch (RuntimeException e) {
+			log.error(e.getMessage(), e);
+			response.setErrors(Arrays.asList(e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
 	}
 
 }
