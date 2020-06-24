@@ -44,7 +44,7 @@ public class CaixaServiceTest {
 
 	@Autowired
 	private CaixaService caixaService;
-
+	
 	private Usuario usuario;
 	private Caixa caixaAtivo;
 	private Caixa caixaInativo;
@@ -118,7 +118,7 @@ public class CaixaServiceTest {
 		});
 
 		BDDMockito.given(this.caixaRepository.findByIdAndIdUsuario(Mockito.anyLong(), Mockito.anyLong())).willReturn(Optional.of(this.caixaInativo));
-		assertNotNull(this.caixaService.habilitarCaixa(1L, this.usuario.getId()));
+		this.caixaService.habilitarCaixa(1L, this.usuario.getId());
 	}
 
 	@Test
@@ -133,7 +133,7 @@ public class CaixaServiceTest {
 		});
 
 		BDDMockito.given(this.caixaRepository.findByIdAndIdUsuario(Mockito.anyLong(), Mockito.anyLong())).willReturn(Optional.of(this.caixaAtivo));
-		assertNotNull(this.caixaService.desabilitarCaixa(1L, this.usuario.getId()));
+		this.caixaService.desabilitarCaixa(1L, this.usuario.getId());
 	}
 
 	@Test
