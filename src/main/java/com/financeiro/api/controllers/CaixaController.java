@@ -78,7 +78,8 @@ public class CaixaController extends GenericController<CaixaDTO> {
 	public ResponseEntity<Response<String>> habilitarCaixa(@PathVariable(name="idCaixa") Long idCaixa) {
 		Response<String> response = new Response<>();
 		try {
-			response.setData(this.caixaService.habilitarCaixa(idCaixa, UserUtil.getCodeUser()));
+			this.caixaService.habilitarCaixa(idCaixa, UserUtil.getCodeUser());
+			response.setData("");
 			return ResponseEntity.ok().body(response);
 		} catch (BusinessException e) {
 			log.error(e.getMessage(), e);
@@ -92,11 +93,12 @@ public class CaixaController extends GenericController<CaixaDTO> {
 	}
 	
 	@PutMapping(value = "/desabilitaCaixa/{idCaixa}")
-	@ApiOperation(value = "Habilita Caixa", produces = "application/JSON")
+	@ApiOperation(value = "Desabilita Caixa", produces = "application/JSON")
 	public ResponseEntity<Response<String>> desabilitarCaixa(@PathVariable(name="idCaixa") Long idCaixa) {
 		Response<String> response = new Response<>();
 		try {
-			response.setData(this.caixaService.desabilitarCaixa(idCaixa, UserUtil.getCodeUser()));
+			this.caixaService.desabilitarCaixa(idCaixa, UserUtil.getCodeUser());
+			response.setData("");
 			return ResponseEntity.ok().body(response);
 		} catch (BusinessException e) {
 			log.error(e.getMessage(), e);

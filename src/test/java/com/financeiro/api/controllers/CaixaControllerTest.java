@@ -118,6 +118,38 @@ public class CaixaControllerTest {
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isInternalServerError());
 	}
+
+	@Test
+	@WithMockCustomUser
+	public void habilitarCaixaTest() throws Exception {
+		BDDMockito.doThrow(BusinessException.class).when(this.caixaService).habilitarCaixa(Mockito.anyLong(), Mockito.anyLong());
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR + "1"))
+		.andExpect(status().isBadRequest());
+		
+		BDDMockito.doThrow(RuntimeException.class).when(this.caixaService).habilitarCaixa(Mockito.anyLong(), Mockito.anyLong());
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR + "1"))
+		.andExpect(status().isInternalServerError());
+		
+		BDDMockito.doNothing().when(this.caixaService).habilitarCaixa(Mockito.anyLong(), Mockito.anyLong());
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR + "1"))
+		.andExpect(status().isOk());
+	}
+	
+	@Test
+	@WithMockCustomUser
+	public void desabilitarCaixaTest() throws Exception {
+		BDDMockito.doThrow(BusinessException.class).when(this.caixaService).desabilitarCaixa(Mockito.anyLong(), Mockito.anyLong());
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR + "1"))
+		.andExpect(status().isBadRequest());
+		
+		BDDMockito.doThrow(RuntimeException.class).when(this.caixaService).desabilitarCaixa(Mockito.anyLong(), Mockito.anyLong());
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR + "1"))
+		.andExpect(status().isInternalServerError());
+		
+		BDDMockito.doNothing().when(this.caixaService).desabilitarCaixa(Mockito.anyLong(), Mockito.anyLong());
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR + "1"))
+		.andExpect(status().isOk());
+	}
 	
 	@Test
 	public void cadastraNovoCaixaSemUsuarioTest() throws Exception {
