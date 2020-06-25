@@ -2,8 +2,8 @@ package com.financeiro.api.controllers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
@@ -26,11 +26,12 @@ import com.financeiro.api.services.CaixaService;
 import com.financeiro.api.util.ConstantesUtil;
 import com.financeiro.api.utils.FunctionUtil;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class CaixaControllerTest {
+class CaixaControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -40,7 +41,7 @@ public class CaixaControllerTest {
 
 	private CaixaDTO caixaDto;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		this.caixaDto = new CaixaDTO();
 		this.caixaDto.setNome("nomeCaixa");
@@ -51,7 +52,7 @@ public class CaixaControllerTest {
 
 	@Test
 	@WithMockCustomUser
-	public void cadastraNovoCaixaTest() throws Exception {
+	void cadastraNovoCaixaTest() throws Exception {
 		BDDMockito.given(this.caixaService.cadastrarCaixa(Mockito.any(CaixaDTO.class))).willReturn(this.caixaDto);
 
 		this.caixaDto.setNome(null);
@@ -83,7 +84,7 @@ public class CaixaControllerTest {
 
 	@Test
 	@WithMockCustomUser
-	public void atualizarCaixaTest() throws Exception {
+	void atualizarCaixaTest() throws Exception {
 		BDDMockito.given(this.caixaService.alterarCaixa(Mockito.any(CaixaDTO.class))).willReturn(this.caixaDto);
 
 		this.caixaDto.setNome(null);
@@ -121,20 +122,20 @@ public class CaixaControllerTest {
 
 	@Test
 	@WithMockCustomUser
-	public void habilitarCaixaTest() throws Exception {
-		BDDMockito.doNothing().when(this.caixaService).habilitarCaixa(Mockito.anyLong(), Mockito.anyLong());
-		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR + "1")).andExpect(status().isOk());
+	void habilitarCaixaTest() throws Exception {
+		BDDMockito.given(this.caixaService.habilitarCaixa(Mockito.anyLong(), Mockito.anyLong())).willReturn("");
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR).param("idCaixa", "1")).andExpect(status().isOk());
 	}
 
 	@Test
 	@WithMockCustomUser
-	public void desabilitarCaixaTest() throws Exception {
-		BDDMockito.doNothing().when(this.caixaService).desabilitarCaixa(Mockito.anyLong(), Mockito.anyLong());
-		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR + "1")).andExpect(status().isOk());
+	void desabilitarCaixaTest() throws Exception {
+		BDDMockito.given(this.caixaService.desabilitarCaixa(Mockito.anyLong(), Mockito.anyLong())).willReturn("");
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR).param("idCaixa", "1")).andExpect(status().isOk());
 	}
 
 	@Test
-	public void cadastraNovoCaixaSemUsuarioTest() throws Exception {
+	void cadastraNovoCaixaSemUsuarioTest() throws Exception {
 		mvc.perform(
 				MockMvcRequestBuilders.post(ConstantesUtil.Url.CAIXA).content(FunctionUtil.asJsonString(this.caixaDto))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -142,7 +143,7 @@ public class CaixaControllerTest {
 	}
 
 	@Test
-	public void alterarCaixaSemUsuarioTest() throws Exception {
+	void alterarCaixaSemUsuarioTest() throws Exception {
 		mvc.perform(
 				MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA).content(FunctionUtil.asJsonString(this.caixaDto))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -150,14 +151,14 @@ public class CaixaControllerTest {
 	}
 
 	@Test
-	public void habilitarCaixaTestSemUsuario() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR + "1"))
+	void habilitarCaixaTestSemUsuario() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR).param("idCaixa", "1"))
 				.andExpect(status().isUnauthorized());
 	}
 
 	@Test
-	public void desabilitarCaixaTestSemUsuario() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR + "1"))
+	void desabilitarCaixaTestSemUsuario() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR).param("idCaixa", "1"))
 				.andExpect(status().isUnauthorized());
 	}
 

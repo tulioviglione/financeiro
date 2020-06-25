@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.api.dtos.CaixaDTO;
@@ -73,9 +73,9 @@ public class CaixaController extends GenericController<CaixaDTO> {
 		return retorno;
 	}
 	
-	@PutMapping(value = "/habilitaCaixa/{idCaixa}")
+	@PutMapping(value = "/habilitaCaixa")
 	@ApiOperation(value = "Habilita Caixa", produces = "application/JSON")
-	public ResponseEntity<Response<String>> habilitarCaixa(@PathVariable(name="idCaixa") Long idCaixa) {
+	public ResponseEntity<Response<String>> habilitarCaixa(@RequestParam("idCaixa") Long idCaixa) {
 		Response<String> response = new Response<>();
 		try {
 			response.setData(this.caixaService.habilitarCaixa(idCaixa, UserUtil.getCodeUser()));
@@ -91,9 +91,9 @@ public class CaixaController extends GenericController<CaixaDTO> {
 		}
 	}
 	
-	@PutMapping(value = "/desabilitaCaixa/{idCaixa}")
+	@PutMapping(value = "/desabilitaCaixa")
 	@ApiOperation(value = "Desabilita Caixa", produces = "application/JSON")
-	public ResponseEntity<Response<String>> desabilitarCaixa(@PathVariable(name="idCaixa") Long idCaixa) {
+	public ResponseEntity<Response<String>> desabilitarCaixa(@RequestParam("idCaixa") Long idCaixa) {
 		Response<String> response = new Response<>();
 		try {
 			response.setData(this.caixaService.desabilitarCaixa(idCaixa, UserUtil.getCodeUser()));
