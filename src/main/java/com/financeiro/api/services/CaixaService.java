@@ -29,8 +29,9 @@ public interface CaixaService {
 	 * @param idCaixa
 	 * @param idUsuario
 	 * @throws BusinessException
+	 * @return
 	 */
-	void habilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException;
+	String habilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException;
 
 	/**
 	 * desabilita o caixa
@@ -38,8 +39,9 @@ public interface CaixaService {
 	 * @param idCaixa
 	 * @param idUsuario
 	 * @throws BusinessException
+	 * @return
 	 */
-	void desabilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException;
+	String desabilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException;
 
 	/**
 	 * lista os caixa pelo ID do Usuario

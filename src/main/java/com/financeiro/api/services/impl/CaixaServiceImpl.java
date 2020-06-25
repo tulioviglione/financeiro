@@ -46,22 +46,24 @@ public class CaixaServiceImpl implements CaixaService {
 	}
 
 	@Override
-	public void habilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException {
+	public String habilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException {
 		log.debug("Habilita caixa id {}", idCaixa);
 		Caixa caixa  = findCaixaById(idCaixa, idUsuario);
 		if(!caixa.getSituacao().equals(AtivoInativoEnum.ATIVO)) {
 			caixa.setSituacao(AtivoInativoEnum.ATIVO);
 			this.caixaRepository.save(caixa);
+			return "Registro habilitado";
 		} else throw new BusinessException("Caixa encontra-se ativo");
 	}
 
 	@Override
-	public void desabilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException {
+	public String desabilitarCaixa(Long idCaixa, Long idUsuario) throws BusinessException {
 		log.debug("Desabilita caixa id {}", idCaixa);
 		Caixa caixa  = findCaixaById(idCaixa, idUsuario);
 		if(!caixa.getSituacao().equals(AtivoInativoEnum.INATIVO)) {
 			caixa.setSituacao(AtivoInativoEnum.INATIVO);
 			this.caixaRepository.save(caixa);
+			return "Registro desabilitado";
 		} else throw new BusinessException("Caixa encontra-se inativo");
 	}
 

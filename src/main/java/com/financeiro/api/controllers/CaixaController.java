@@ -78,8 +78,7 @@ public class CaixaController extends GenericController<CaixaDTO> {
 	public ResponseEntity<Response<String>> habilitarCaixa(@PathVariable(name="idCaixa") Long idCaixa) {
 		Response<String> response = new Response<>();
 		try {
-			this.caixaService.habilitarCaixa(idCaixa, UserUtil.getCodeUser());
-			response.setData("");
+			response.setData(this.caixaService.habilitarCaixa(idCaixa, UserUtil.getCodeUser()));
 			return ResponseEntity.ok().body(response);
 		} catch (BusinessException e) {
 			log.error(e.getMessage(), e);
@@ -97,8 +96,7 @@ public class CaixaController extends GenericController<CaixaDTO> {
 	public ResponseEntity<Response<String>> desabilitarCaixa(@PathVariable(name="idCaixa") Long idCaixa) {
 		Response<String> response = new Response<>();
 		try {
-			this.caixaService.desabilitarCaixa(idCaixa, UserUtil.getCodeUser());
-			response.setData("");
+			response.setData(this.caixaService.desabilitarCaixa(idCaixa, UserUtil.getCodeUser()));
 			return ResponseEntity.ok().body(response);
 		} catch (BusinessException e) {
 			log.error(e.getMessage(), e);
