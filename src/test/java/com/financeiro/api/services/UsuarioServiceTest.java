@@ -1,14 +1,12 @@
 package com.financeiro.api.services;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
@@ -30,7 +28,7 @@ import com.financeiro.api.util.ConstantesUtil;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class UsuarioServiceTest {
+class UsuarioServiceTest {
 
 	@MockBean
 	private UsuarioRepository usuarioRepository;
@@ -38,7 +36,7 @@ public class UsuarioServiceTest {
 	@Autowired
 	private UsuarioService usuarioService;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		BDDMockito.given(this.usuarioRepository.save(Mockito.any(Usuario.class))).willReturn(new Usuario());
 		BDDMockito.given(this.usuarioRepository.findByEmail(Mockito.anyString()))
@@ -50,42 +48,36 @@ public class UsuarioServiceTest {
 	}
 
 	@Test
-	public void buscaUsuario() {
-		assertTrue(this.usuarioService.findByEmail(ConstantesUtil.Usuario.EMAIL_VALIDO).isPresent());
-		assertTrue(this.usuarioService.findByLogin(ConstantesUtil.Usuario.LOGIN).isPresent());
-		assertTrue(this.usuarioService.isLoginExist(ConstantesUtil.Usuario.LOGIN));
-		assertTrue(this.usuarioService.isEmailExist(ConstantesUtil.Usuario.EMAIL_VALIDO));
+	void buscaUsuario() {
+		Assertions.assertTrue(this.usuarioService.findByEmail(ConstantesUtil.Usuario.EMAIL_VALIDO).isPresent());
+		Assertions.assertTrue(this.usuarioService.findByLogin(ConstantesUtil.Usuario.LOGIN).isPresent());
+		Assertions.assertTrue(this.usuarioService.isLoginExist(ConstantesUtil.Usuario.LOGIN));
+		Assertions.assertTrue(this.usuarioService.isEmailExist(ConstantesUtil.Usuario.EMAIL_VALIDO));
 	}
 
 	@Test
-	public void TestCadastroNovoUsuario() throws ParseException, BusinessException {
+	void TestCadastroNovoUsuario() throws ParseException, BusinessException {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(ConstantesUtil.Usuario.EMAIL_VALIDO);
 		usuario.setLogin(ConstantesUtil.Usuario.LOGIN);
 		usuario.setSenha(ConstantesUtil.Usuario.SENHA_VALIDA);
 		usuario = this.usuarioService.cadastraNovoUsuario(usuario);
-		assertNotNull(usuario);
-	}
-
-	@Test
-	public void TestPersistencia() {
-		Usuario usuario = this.usuarioService.persisteUsuario(new Usuario());
-
-		assertNotNull(usuario);
-	}
-
-	@Test
-	public void TestBuscaUsuariosCadastrados() {
-		Page<Usuario> usuario = this.usuarioService.buscaTodosUsuarios(PageRequest.of(0, 10));
-
-		assertNotNull(usuario);
-	}
-
-	@Test(expected = BusinessException.class)
-	public void TestExceptionCadastroNovoUsuario() throws BusinessException {
+		Assertions.assertNotNull(usuario);
 		BDDMockito.given(this.usuarioRepository.save(Mockito.any(Usuario.class)))
 				.willThrow(DataIntegrityViolationException.class);
-		this.usuarioService.cadastraNovoUsuario(new Usuario());
+		Assertions.assertThrows(BusinessException.class, () -> this.usuarioService.cadastraNovoUsuario(new Usuario()));
+	}
+
+	@Test
+	void TestPersistencia() {
+		Usuario usuario = this.usuarioService.persisteUsuario(new Usuario());
+		Assertions.assertNotNull(usuario);
+	}
+
+	@Test
+	void TestBuscaUsuariosCadastrados() {
+		Page<Usuario> usuario = this.usuarioService.buscaTodosUsuarios(PageRequest.of(0, 10));
+		Assertions.assertNotNull(usuario);
 	}
 
 }

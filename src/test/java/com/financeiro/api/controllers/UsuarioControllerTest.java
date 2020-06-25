@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
@@ -32,7 +32,7 @@ import com.financeiro.api.util.ConstantesUtil;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class UsuarioControllerTest {
+class UsuarioControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -40,7 +40,7 @@ public class UsuarioControllerTest {
 	@MockBean
 	private UsuarioService usuarioService;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		Usuario usuario = new Usuario();
 		usuario.setNome("nome");
@@ -57,7 +57,7 @@ public class UsuarioControllerTest {
 	}
 
 	@Test
-	public void cadastraNovoUsuario() throws Exception {
+	void cadastraNovoUsuario() throws Exception {
 		BDDMockito.given(this.usuarioService.cadastraNovoUsuario(Mockito.any(Usuario.class))).willReturn(new Usuario());
 
 		mvc.perform(MockMvcRequestBuilders.post(ConstantesUtil.Url.CADASTRA_USUARIO)
@@ -87,7 +87,7 @@ public class UsuarioControllerTest {
 	}
 
 	@Test
-	public void testValidaExistenciaEmail() throws Exception {
+	void testValidaExistenciaEmail() throws Exception {
 		mvc.perform(MockMvcRequestBuilders
 				.get(ConstantesUtil.Url.VALIDA_EXISTENCIA_EMAIL + ConstantesUtil.Usuario.EMAIL_VALIDO)
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -96,7 +96,7 @@ public class UsuarioControllerTest {
 	}
 
 	@Test
-	public void testValidaExistenciaLogin() throws Exception {
+	void testValidaExistenciaLogin() throws Exception {
 		mvc.perform(
 				MockMvcRequestBuilders.get(ConstantesUtil.Url.VALIDA_EXISTENCIA_LOGIN + ConstantesUtil.Usuario.LOGIN)
 						.accept(MediaType.APPLICATION_JSON))

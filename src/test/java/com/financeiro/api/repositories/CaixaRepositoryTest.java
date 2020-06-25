@@ -1,11 +1,12 @@
 package com.financeiro.api.repositories;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,7 @@ import com.financeiro.api.util.ConstantesUtil;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class CaixaRepositoryTest {
+class CaixaRepositoryTest {
 
 	@Autowired
 	private CaixaRepository caixaRepository;
@@ -35,7 +36,7 @@ public class CaixaRepositoryTest {
 
 	private Caixa caixa;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(ConstantesUtil.Usuario.EMAIL_VALIDO);
@@ -53,37 +54,37 @@ public class CaixaRepositoryTest {
 		this.caixa = this.caixaRepository.save(caixa);
 	}
 
-	@After
+	@AfterEach
 	public final void tearDown() {
 		this.caixaRepository.deleteAll();
 		this.usuarioRepository.deleteAll();
 	}
 
 	@Test
-	public void testFindByUsuario() {
+	void testFindByUsuario() {
 		assertFalse(caixaRepository.findByUsuario(this.user).isEmpty());
 	}
 
 	@Test
-	public void testFindByUsuarioAndSituacao() {
+	void testFindByUsuarioAndSituacao() {
 		assertFalse(caixaRepository.findByUsuarioAndSituacao(this.user, AtivoInativoEnum.ATIVO).isEmpty());
 		assertTrue(caixaRepository.findByUsuarioAndSituacao(this.user, AtivoInativoEnum.INATIVO).isEmpty());
 	}
 
 	@Test
-	public void testFindByIdUsuario() {
+	void testFindByIdUsuario() {
 		assertFalse(caixaRepository.findByIdUsuario(this.user.getId()).isEmpty());
 		assertTrue(caixaRepository.findByIdUsuario(10L).isEmpty());
 	}
 
 	@Test
-	public void testFindByIdUsuarioAndSituacao() {
+	void testFindByIdUsuarioAndSituacao() {
 		assertFalse(caixaRepository.findByIdUsuarioAndSituacao(this.user.getId(), AtivoInativoEnum.ATIVO).isEmpty());
 		assertTrue(caixaRepository.findByIdUsuarioAndSituacao(this.user.getId(), AtivoInativoEnum.INATIVO).isEmpty());
 	}
 
 	@Test
-	public void testFindByIdAndIdUsuario() {
+	void testFindByIdAndIdUsuario() {
 		assertTrue(caixaRepository.findByIdAndIdUsuario(this.caixa.getId(), this.user.getId()).isPresent());
 		assertFalse(caixaRepository
 				.findByIdAndIdUsuario(Math.subtractExact(100L, this.caixa.getId()), this.user.getId()).isPresent());
