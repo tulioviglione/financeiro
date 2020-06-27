@@ -123,32 +123,6 @@ class CaixaControllerTest {
 	}
 
 	@Test
-	@WithMockCustomUser
-	void habilitarCaixaTest() throws Exception {
-		BDDMockito.given(this.caixaService.habilitarCaixa(Mockito.anyLong(), Mockito.anyLong())).willReturn("");
-		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR).param("idCaixa", "1")).andExpect(status().isOk());
-	}
-
-	@Test
-	@WithMockCustomUser
-	void desabilitarCaixaTest() throws Exception {
-		BDDMockito.given(this.caixaService.desabilitarCaixa(Mockito.anyLong(), Mockito.anyLong())).willReturn("");
-		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR).param("idCaixa", "1")).andExpect(status().isOk());
-	}
-
-	@Test
-	@WithMockCustomUser
-	void buscarCaixaAtivoTest() throws Exception {
-		BDDMockito.given(this.caixaService.findActiveCaixaByIdUsuario(Mockito.anyLong())).willReturn(new ArrayList<>());
-		mvc.perform(MockMvcRequestBuilders.get(ConstantesUtil.Url.CAIXA_ATIVO)).andExpect(status().isOk());
-	}
-
-	@Test
-	void buscarCaixaAtivoSemUsuarioTest() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get(ConstantesUtil.Url.CAIXA_ATIVO)).andExpect(status().isUnauthorized());
-	}
-	
-	@Test
 	void cadastraNovoCaixaSemUsuarioTest() throws Exception {
 		mvc.perform(
 				MockMvcRequestBuilders.post(ConstantesUtil.Url.CAIXA).content(FunctionUtil.asJsonString(this.caixaDto))
@@ -161,18 +135,6 @@ class CaixaControllerTest {
 		mvc.perform(
 				MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA).content(FunctionUtil.asJsonString(this.caixaDto))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isUnauthorized());
-	}
-
-	@Test
-	void habilitarCaixaTestSemUsuario() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_HABILITAR).param("idCaixa", "1"))
-				.andExpect(status().isUnauthorized());
-	}
-
-	@Test
-	void desabilitarCaixaTestSemUsuario() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.put(ConstantesUtil.Url.CAIXA_DESABILITAR).param("idCaixa", "1"))
 				.andExpect(status().isUnauthorized());
 	}
 
