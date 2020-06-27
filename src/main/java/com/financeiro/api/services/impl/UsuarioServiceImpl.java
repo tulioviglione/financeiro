@@ -61,7 +61,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario cadastraNovoUsuario(Usuario usuario) throws BusinessException {
 		log.debug("cadastra novo usuario no sistema");
 		usuario.setSituacao(SituacaoUsuarioEnum.BLOQUEADO);
-		usuario.setPerfil(PerfilEnum.ADMIN);
+		usuario.setPerfil(PerfilEnum.USER);
 		usuario.setSenha(PasswordUtils.gerarBCrypt(usuario.getSenha()));
 		try {
 			return usuarioRepository.save(usuario);

@@ -22,7 +22,11 @@ import com.financeiro.api.enums.SituacaoUsuarioEnum;
 @Table(name = "usuario")
 public class Usuario extends Generics implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1726030024509399588L;
 
 	@Column(name = "NOME", length = 50)
 	private String nome;
@@ -53,7 +57,7 @@ public class Usuario extends Generics implements Serializable {
 	
 	public Usuario(UsuarioDTO dto) {
 		super();
-		setId(dto.getId());
+		this.id = dto.getId();
 		this.nome = dto.getNome();
 		this.sobrenome = dto.getSobrenome();
 		this.login = dto.getLogin();

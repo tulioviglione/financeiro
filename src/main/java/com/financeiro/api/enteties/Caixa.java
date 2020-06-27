@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.financeiro.api.dtos.CaixaDTO;
 import com.financeiro.api.enums.AtivoInativoEnum;
 import com.financeiro.api.enums.TipoCaixaEnum;
 
@@ -24,7 +25,11 @@ import com.financeiro.api.enums.TipoCaixaEnum;
 @Table(name = "caixa")
 public class Caixa extends Generics implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4082652219971367372L;
 
 	@Column(name = "NOME", length = 50, nullable = false)
 	private String nome;
@@ -44,8 +49,27 @@ public class Caixa extends Generics implements Serializable {
 	@JoinColumn(name="id_usuario", nullable = false)
 	private Usuario usuario;
 	
+	@Column(name="id_usuario", insertable = false, updatable = false)
+	private Long idUsuario;
+	
 	public Caixa() {
 		// construtor padrão
+	}
+	
+	public Caixa(Long id) {
+		super();
+		this.id = id;
+	}
+	
+	public Caixa(CaixaDTO dto) {
+		super();
+		this.id = dto.getId();
+		this.nome = dto.getNome();
+		this.descricao = dto.getDescricao();
+		this.situacao = dto.getSituacao();
+		this.tipoCaixa = dto.getTipoCaixa();
+		this.setUsuario(new Usuario(dto.getUsuario()));
+		this.idUsuario = this.getUsuario().getId();
 	}
 
 	public String getNome() {
@@ -86,6 +110,11 @@ public class Caixa extends Generics implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+		this.idUsuario = usuario.getId();
+	}
+
+	public Long getIdUsuario() {
+		return idUsuario;
 	}
 
 }

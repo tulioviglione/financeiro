@@ -1,10 +1,10 @@
 package com.financeiro.api.repositories;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,12 +19,12 @@ import com.financeiro.api.util.ConstantesUtil;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class UsuarioRepositoryTest {
+class UsuarioRepositoryTest {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(ConstantesUtil.Usuario.EMAIL_VALIDO);
@@ -35,18 +35,18 @@ public class UsuarioRepositoryTest {
 		this.usuarioRepository.save(usuario);
 	}
 
-	@After
+	@AfterEach
 	public final void tearDown() {
 		this.usuarioRepository.deleteAll();
 	}
 
 	@Test
-	public void testFindByEmail() {
+	void testFindByEmail() {
 		assertTrue(usuarioRepository.findByEmail(ConstantesUtil.Usuario.EMAIL_VALIDO).isPresent());
 	}
 
 	@Test
-	public void testFindByNickName() {
+	void testFindByNickName() {
 		assertTrue(usuarioRepository.findByLogin(ConstantesUtil.Usuario.LOGIN).isPresent());
 	}
 

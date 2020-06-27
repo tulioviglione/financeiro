@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.financeiro.api.dtos.UsuarioDTO;
 import com.financeiro.api.enteties.Usuario;
 import com.financeiro.api.enums.PerfilEnum;
 
@@ -21,8 +22,8 @@ public class JwtUserFactory {
 	 * @return JwtUser
 	 */
 	public static JwtUser create(Usuario usuario) {
-		return new JwtUser(usuario.getId(), usuario.getEmail(), usuario.getSenha(),
-				mapToGrantedAuthorities(usuario.getPerfil()));
+		return new JwtUser(usuario.getId(), usuario.getNome(), usuario.getSobrenome(), usuario.getEmail(), usuario.getSenha(),
+				mapToGrantedAuthorities(usuario.getPerfil()), new UsuarioDTO(usuario));
 	}
 
 	/**
