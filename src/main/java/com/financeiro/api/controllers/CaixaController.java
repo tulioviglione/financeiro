@@ -1,11 +1,14 @@
 package com.financeiro.api.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +20,7 @@ import com.financeiro.api.services.CaixaService;
 import com.financeiro.api.utils.UserUtil;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Metodos para acesso as funcionalidades dos caixas")
 @RequestMapping("/api/caixas")
@@ -62,6 +66,18 @@ public class CaixaController extends GenericController<CaixaDTO> {
 			}
 		}
 		return retorno;
+	}
+	
+	@GetMapping
+	@ApiOperation(value = "Busca caixas ativos", produces = "application/JSON")
+	public ResponseEntity<Response<List<CaixaDTO>>> findActiveCaixa() {
+		Response<List<CaixaDTO>> response = new Response<>();
+		try {
+			response.setData(this.caixaService.findActiveCaixaByIdUsuario(UserUtil.getCodeUser()));
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
 }

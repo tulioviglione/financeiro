@@ -2,6 +2,8 @@ package com.financeiro.api.controllers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -136,4 +138,14 @@ class CaixaControllerTest {
 				.andExpect(status().isUnauthorized());
 	}
 
+	@Test
+	@WithMockCustomUser
+	void findActiveCaixaTest() throws Exception {
+		Mockito.when(this.caixaService.findActiveCaixaByIdUsuario(Mockito.any())).thenReturn(new ArrayList<>());
+		mvc.perform(MockMvcRequestBuilders.get(ConstantesUtil.Url.CAIXA)).andExpect(status().isOk());
+
+		Mockito.when(this.caixaService.findActiveCaixaByIdUsuario(Mockito.any())).thenThrow(new RuntimeException());
+		mvc.perform(MockMvcRequestBuilders.get(ConstantesUtil.Url.CAIXA)).andExpect(status().isInternalServerError());
+		
+	}
 }
