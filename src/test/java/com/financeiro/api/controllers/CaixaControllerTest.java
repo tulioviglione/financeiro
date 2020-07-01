@@ -28,7 +28,6 @@ import com.financeiro.api.services.CaixaService;
 import com.financeiro.api.util.ConstantesUtil;
 import com.financeiro.api.utils.FunctionUtil;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -146,6 +145,6 @@ class CaixaControllerTest {
 
 		Mockito.when(this.caixaService.findActiveCaixaByIdUsuario(Mockito.any())).thenThrow(new RuntimeException());
 		mvc.perform(MockMvcRequestBuilders.get(ConstantesUtil.Url.CAIXA)).andExpect(status().isInternalServerError());
-		
+
 	}
 }
