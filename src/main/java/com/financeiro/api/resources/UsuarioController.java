@@ -1,4 +1,4 @@
-package com.financeiro.api.controllers;
+package com.financeiro.api.resources;
 
 import javax.validation.Valid;
 
