@@ -50,8 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/auth/usuarios/**", "/auth/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/auth/usuarios/validaUsuario/**", "/auth/usuarios/validaEmail/**")
+				.antMatchers(HttpMethod.POST, "/api/usuarios/**", "/auth/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/usuarios/validaUsuario/**", "/api/usuarios/validaEmail/**")
 				.permitAll().anyRequest().authenticated();
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 		httpSecurity.headers().cacheControl();
