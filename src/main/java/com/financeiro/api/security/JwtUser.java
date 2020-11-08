@@ -17,6 +17,7 @@ public class JwtUser implements UserDetails {
 	private String sobrenome;
 	private UsuarioDTO userDto;
 	private String email;
+	private String userName;
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public JwtUser() {
@@ -30,7 +31,8 @@ public class JwtUser implements UserDetails {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.userDto = userDto;
-		this.email = email;
+		this.email = email;	
+		this.userName = userDto.getLogin();
 	}
 
 	public Long getId() {
@@ -39,7 +41,7 @@ public class JwtUser implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return this.email;
+		return this.userName;
 	}
 
 	@Override
