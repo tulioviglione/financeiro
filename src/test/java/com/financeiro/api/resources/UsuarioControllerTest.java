@@ -1,4 +1,4 @@
-package com.financeiro.api.controllers;
+package com.financeiro.api.resources;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

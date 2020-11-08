@@ -1,4 +1,4 @@
-package com.financeiro.api.controllers;
+package com.financeiro.api.resources;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Metodos para acesso as funcionalidades dos caixas")
 @RequestMapping("/api/caixas")
 @RestController
-public class CaixaController extends GenericController<CaixaDTO> {
+public class CaixaResource extends GenericResource<CaixaDTO> {
 
 	@Autowired
 	private CaixaService caixaService;

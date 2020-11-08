@@ -1,4 +1,4 @@
-package com.financeiro.api.controllers;
+package com.financeiro.api.resources;
 
 import javax.validation.Valid;
 
@@ -23,11 +23,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Metodos para acesso as funcionalidades dos usuários")
-@RequestMapping("/auth/usuarios")
+@RequestMapping("/api/usuarios")
 @RestController
-public class UsuarioController extends GenericController<UsuarioDTO> {
+public class UsuarioResource extends GenericResource<UsuarioDTO> {
 
-	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
+	private static final Logger log = LoggerFactory.getLogger(UsuarioResource.class);
 
 	@Autowired
 	private UsuarioService usuarioService;
