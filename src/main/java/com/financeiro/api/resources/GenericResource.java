@@ -25,9 +25,9 @@ import io.swagger.annotations.ApiResponses;
 		@ApiResponse(code = 500, message = "Erro inesperado. Exceção não tratada"),
 		@ApiResponse(code = 201, message = "Novo registro adicionado"),
 		@ApiResponse(code = 204, message = "Registro atualizado") })
-public abstract class GenericController<K> {
+public abstract class GenericResource<K> {
 
-	private static final Logger log = LoggerFactory.getLogger(GenericController.class);
+	private static final Logger log = LoggerFactory.getLogger(GenericResource.class);
 
 	@PostMapping
 	@ApiOperation(value = "Salva novo registro", produces = "application/JSON")
