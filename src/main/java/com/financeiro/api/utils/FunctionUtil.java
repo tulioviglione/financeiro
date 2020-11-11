@@ -8,7 +8,6 @@ public final class FunctionUtil {
 	private FunctionUtil() {
 		throw new IllegalStateException("Utility class");
 	}
-
 	public static String asJsonString(final Object obj) throws BusinessException {
 	    try {
 	        return new ObjectMapper().writeValueAsString(obj);
