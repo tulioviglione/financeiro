@@ -181,7 +181,6 @@
                         </configuration>
                     </execution>
                 </executions>
-                <!-- 
                 <configuration>
                     <excludes>
                         <exclude>com/financeiro/api/security/**</exclude>
@@ -190,7 +189,6 @@
 						<exclude>com/financeiro/api/conf/**</exclude>                        
                     </excludes>
                 </configuration>
-                -->
             </plugin>
 		</plugins>
 	</build>
