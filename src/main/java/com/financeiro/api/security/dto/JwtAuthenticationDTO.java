@@ -3,7 +3,7 @@ package com.financeiro.api.security.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class JwtAuthenticationDto {
+public class JwtAuthenticationDTO {
 
 	private String email;
 	private String senha;

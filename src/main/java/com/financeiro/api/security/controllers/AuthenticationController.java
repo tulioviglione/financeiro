@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.api.response.Response;
-import com.financeiro.api.security.dto.JwtAuthenticationDto;
+import com.financeiro.api.security.dto.JwtAuthenticationDTO;
 import com.financeiro.api.security.dto.TokenDto;
 import com.financeiro.api.security.utils.JwtTokenUtil;
 
@@ -59,7 +59,7 @@ public class AuthenticationController {
 	 */
 	@PostMapping("/authentic")
 	@ApiOperation(value = "Gera token para acesso a API", response = TokenDto.class, produces = "application/JSON")
-	public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDto authenticationDto,
+	public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDTO authenticationDto,
 			BindingResult result) {
 		Response<TokenDto> response = new Response<>();
 
