@@ -138,33 +138,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- 
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
-				<configuration>
-					
-				</configuration>
-				<executions>
-					<execution>
-						<id>default-prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-report</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			 -->
-			 <plugin>
-                <groupId>org.jacoco</groupId>
+            	<groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.5</version>
                 <executions>
@@ -206,6 +181,7 @@
                         </configuration>
                     </execution>
                 </executions>
+                <!-- 
                 <configuration>
                     <excludes>
                         <exclude>com/financeiro/api/security/**</exclude>
@@ -214,6 +190,7 @@
 						<exclude>com/financeiro/api/conf/**</exclude>                        
                     </excludes>
                 </configuration>
+                -->
             </plugin>
 		</plugins>
 	</build>
