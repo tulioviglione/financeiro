@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.api.response.Response;
 import com.financeiro.api.security.dto.JwtAuthenticationDTO;
-import com.financeiro.api.security.dto.TokenDto;
+import com.financeiro.api.security.dto.TokenDTO;
 import com.financeiro.api.security.utils.JwtTokenUtil;
 
 import io.swagger.annotations.Api;
@@ -58,10 +58,10 @@ public class AuthenticationController {
 	 * @return ResponseEntity<Response<TokenDto>>
 	 */
 	@PostMapping("/authentic")
-	@ApiOperation(value = "Gera token para acesso a API", response = TokenDto.class, produces = "application/JSON")
-	public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDTO authenticationDto,
+	@ApiOperation(value = "Gera token para acesso a API", response = TokenDTO.class, produces = "application/JSON")
+	public ResponseEntity<Response<TokenDTO>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDTO authenticationDto,
 			BindingResult result) {
-		Response<TokenDto> response = new Response<>();
+		Response<TokenDTO> response = new Response<>();
 
 		if (result.hasErrors()) {
 			log.error("Erro validando lançamento: {}", result.getAllErrors());
@@ -75,7 +75,7 @@ public class AuthenticationController {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getEmail());
 			String token = jwtTokenUtil.obterToken(userDetails);
-			response.setData(new TokenDto(token));
+			response.setData(new TokenDTO(token));
 
 			return ResponseEntity.ok(response);
 		} catch (BadCredentialsException e) {
@@ -96,10 +96,10 @@ public class AuthenticationController {
 	 * @return ResponseEntity<Response<TokenDto>>
 	 */
 	@PutMapping(value = "/refresh")
-	@ApiOperation(value = "Atualiza token para acesso a API", response = TokenDto.class, produces = "application/JSON")
-	public ResponseEntity<Response<TokenDto>> gerarRefreshTokenJwt(HttpServletRequest request) {
+	@ApiOperation(value = "Atualiza token para acesso a API", response = TokenDTO.class, produces = "application/JSON")
+	public ResponseEntity<Response<TokenDTO>> gerarRefreshTokenJwt(HttpServletRequest request) {
 		log.debug("Gerando refresh token JWT.");
-		Response<TokenDto> response = new Response<>();
+		Response<TokenDTO> response = new Response<>();
 		Optional<String> token = Optional.ofNullable(request.getHeader(TOKEN_HEADER));
 		try {
 			if (token.isPresent()) {
@@ -111,7 +111,7 @@ public class AuthenticationController {
 					return ResponseEntity.badRequest().body(response);
 				} else {
 					String refreshedToken = jwtTokenUtil.refreshToken(token.get());
-					response.setData(new TokenDto(refreshedToken));
+					response.setData(new TokenDTO(refreshedToken));
 					return ResponseEntity.ok(response);
 				}
 			} else {

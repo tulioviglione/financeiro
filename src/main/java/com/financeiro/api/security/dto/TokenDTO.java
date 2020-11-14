@@ -1,13 +1,13 @@
 package com.financeiro.api.security.dto;
 
-public class TokenDto {
+public class TokenDTO {
 
 	private String token;
 
-	public TokenDto() {
+	public TokenDTO() {
 	}
 
-	public TokenDto(String token) {
+	public TokenDTO(String token) {
 		this.token = token;
 	}
 
