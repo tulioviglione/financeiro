@@ -142,6 +142,12 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.5</version>
+				<configuration>
+					<exclude>com.financeiro.api.security.*</exclude>
+					<exclude>com.financeiro.api.enteties.*</exclude>
+					<exclude>com.financeiro.api.enums.*</exclude>
+					<exclude>com.financeiro.api.conf.*</exclude>
+				</configuration>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
