@@ -189,6 +189,8 @@
 						<exclude>com/financeiro/api/enteties/**</exclude>
 						<exclude>com/financeiro/api/enums/**</exclude>
 						<exclude>com/financeiro/api/conf/**</exclude>                        
+						<exclude>com/financeiro/api/dtos/*</exclude>
+						<exclude>com/financeiro/api/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
