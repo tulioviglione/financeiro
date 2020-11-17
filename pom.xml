@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.1.RELEASE</version>
+		<version>2.3.6.RELEASE</version>
 		<relativePath/>
 	</parent>
 	<groupId>com.financeiro</groupId>
@@ -189,6 +189,8 @@
 						<exclude>com/financeiro/api/enteties/**</exclude>
 						<exclude>com/financeiro/api/enums/**</exclude>
 						<exclude>com/financeiro/api/conf/**</exclude>                        
+						<exclude>com/financeiro/api/dtos/*</exclude>
+						<exclude>com/financeiro/api/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
