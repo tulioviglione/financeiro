@@ -1,7 +1,8 @@
 addons:
   sonarcloud:
     organization: "tulioviglione1"
-    token: ${SONAR_TOKEN}
+    token:
+      secure: ${SONAR_TOKEN}
 
 script:
-  - mvn clean verify sonar:sonar -Dsonar.projectKey=com.financeiro:api
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
